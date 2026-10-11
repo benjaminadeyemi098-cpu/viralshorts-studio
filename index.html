@@ -1,0 +1,104 @@
+# ViralShorts Studio â€” Complete Implementation Plan
+
+## 1. Executive Summary & Architecture Overview
+**ViralShorts Studio** is a modern, responsive web application engineered for automated YouTube Shorts creation and channel operations. The application bridges AI-powered conceptualization, script splitting with strict word pacing and seamless infinite looping, Midjourney/Leonardo.Ai 9:16 prompt planning, and persistent cloud tracking via Firebase Firestore.
+
+```
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                       VIRALSHORTS STUDIO WORKSPACE                          â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ 1. Idea & Niche â”‚ 2. 60s Script     â”‚ 3. Visual Prompt  â”‚ 4. Channel Ops    â”‚
+â”‚    Researcher   â”‚    Splitter (9-Cutâ”‚    Planner (9:16  â”‚    & Batch Queue  â”‚
+â”‚    (10 Shorts)  â”‚    Infinite Loop) â”‚    Midjourney)    â”‚    (Firestore)    â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+         â”‚                  â”‚                   â”‚                   â”‚
+         â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                   â”‚
+                            â–¼                                       â–¼
+                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                   â”‚  9:16 Vertical  â”‚                     â”‚ Cloud Firestore â”‚
+                   â”‚ Phone Simulator â”‚                     â”‚ video_projects  â”‚
+                   â”‚ (Kinetic Sub/TTSâ”‚                     â”‚ (Auth & Sync)   â”‚
+                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+```
+
+---
+
+## 2. Dark Mode Theme & Visual Design Specifications
+The visual interface follows a sleek, high-contrast creator dark aesthetic optimized for long editing sessions:
+
+- **Color Palette**:
+  - Background Base: `#090a0f` (Obsidian Onyx)
+  - Surface Containers: `#0c0e15` to `#0e111a` (Deep Slate Glass)
+  - Elevated Cards: `#121624` with `border-slate-800`
+  - Neon Accent (Primary): Rose / Crimson (`#e11d48`, `#f43f5e`, `#fb7185`)
+  - Secondary Accents: Amber Gold (`#f59e0b` for timecodes/hooks), Electric Cyan (`#06b6d4` for aspect ratio flags), Toxic Purple (`#a855f7` for Dark Psychology tags), Emerald (`#10b981` for completed states)
+- **Typography**:
+  - Primary UI: `Plus Jakarta Sans` (weights: 400, 500, 600, 700, 800)
+  - Pacing, Code, & Prompts: `JetBrains Mono` for precise character spacing
+- **Kinetic Subtitle Styles in 9:16 Simulator**:
+  - *Hormozi Yellow Pop*: `#fde047` font with bold uppercase drop shadow
+  - *Neon Red Glitch*: `#f43f5e` glow with black backdrop box
+  - *Clean Minimalist*: Crisp white text with 60% frosted glass backing
+
+---
+
+## 3. The 9 Script Cuts (Dark Psychology Rules Engine)
+The script generator and splitter strictly enforce the following structural laws for the "Dark Psychology" niche:
+1. **Word Count Limit**: Strictly between 85 and 110 words (never exceeding 130 words) to ensure calculated voiceover breathing room.
+2. **Sentence Structure**: Ultra-short, punchy sentences (3â€“6 words max per line) forcing a cold, deliberate pacing.
+3. **The Hook (0â€“3s)**: Starts immediately with negative, high-stakes openers (*"Warning. If they do this, they are secretly manipulating you."*).
+4. **The Open Loop (3â€“20s)**: Presents subtle body language cues (pupil dilation, predatory unblinking contact) before revealing the counter-strategy.
+5. **The Payoff (20â€“50s)**: Clearly delivers the exact psychological counter-move (3-second silence rule, forehead gaze, boundary resetting).
+6. **The Seamless Loop (50â€“60s)**: The final cut (*"Because whenever someone tries this on you,"*) cuts off abruptly and seamlessly restarts into the opening hook (*"Warning. If they do this..."*).
+
+### The 9 Scene Cuts Sequence:
+- **Cut 01 (`0:00 - 0:04`)**: *"Warning. If they do this, they are secretly manipulating you."* (10 words)
+- **Cut 02 (`0:04 - 0:11`)**: *"Notice their eyes when asking. Average people blink every four seconds."* (11 words)
+- **Cut 03 (`0:11 - 0:18`)**: *"Trained manipulators never look away. They lock predatory unblinking contact."* (10 words)
+- **Cut 04 (`0:18 - 0:26`)**: *"This triggers subtle nervous panic. Your subconscious rushes to agree."* (10 words)
+- **Cut 05 (`0:26 - 0:34`)**: *"Never surrender to this silence. Break the hypnotic trance immediately."* (10 words)
+- **Cut 06 (`0:34 - 0:42`)**: *"Count three seconds before speaking. Fix your gaze between their eyebrows."* (11 words)
+- **Cut 07 (`0:42 - 0:50`)**: *"Never blink or look down. Their manufactured dominance shatters instantly."* (10 words)
+- **Cut 08 (`0:50 - 0:56`)**: *"They will panic and over-explain."* (5 words)
+- **Cut 09 (`0:56 - 1:00`)**: *"Because whenever someone tries this on you,"* (7 words)
+- **Total Word Count**: **94 words** (strictly within the 85â€“110 word range).
+
+---
+
+## 4. Visual Prompt Planner Controls (Midjourney & Leonardo AI)
+The **Prompt Planner** view (`src/components/VisualPromptPlanner.tsx`) lays out the 9 cuts in a structured column feed with the following features:
+
+### Enforced Prompt Engineering Rules:
+1. **Vertical Ratio Enforcement**: Every single prompt terminates strictly with `--ar 9:16`.
+2. **Atmospheric Dark Styling**: Every prompt injects mandatory keywords:
+   - `low-key lighting`
+   - `deep shadows`
+   - `dark moody background`
+   - `highly detailed textures`
+   - `chiaroscuro photography`
+   - `dramatic realistic tone`
+3. **Action-Matched Descriptions**: Visual descriptions directly translate the narration events (e.g., predatory eye contact, pupil scanning grids, unblinking boardroom silhouettes, obsidian cortex firing, shattered porcelain masks, vintage stopwatch at 3 seconds, fallen chess king, and infinite mirror chambers).
+4. **Copy Controls & Action Buttons**:
+   - Single-click **"Copy Prompt"** on each cut
+   - Single-click **"+ /imagine"** formatted for Discord Midjourney bot
+   - Global **"Copy All (Midjourney)"** & **"Copy for Leonardo.Ai"**
+   - **"Enforce Rules on All Prompts"** button that automatically validates and injects missing tags
+   - **"Export CSV"** for video editors (CapCut / Premiere Pro / DaVinci Resolve)
+
+---
+
+## 5. 9:16 Vertical Smartphone Simulator
+Docked on the workspace column, the smartphone simulator provides:
+- Realistic iPhone 16 Pro styling with dynamic island and rounded glass bezel
+- Animated kinetic subtitle overlays with customizable styles (Hormozi Yellow, Neon Red, Minimal)
+- Web Speech API integration synchronizing browser audio voiceover with the active line
+- **Infinite Loop Engine**: When the video progress reaches 100%, it immediately loops back to 0:00 without pausing, audibly demonstrating the seamless loop illusion.
+- Audio play, pause, restart, mute, and speed controls (1.0x, 1.15x Shorts tempo, 1.25x).
+
+---
+
+## 6. Channel Operations Hub & Firestore Pipeline
+- **Cloud Database**: Stored under `/video_projects/{projectId}` in Firestore.
+- **Production Stages**: `Idea` â†’ `Scripted` â†’ `Asset Generated` â†’ `Voiceover` â†’ `Editing` â†’ `Ready` â†’ `Scheduled` â†’ `Published`.
+- **Batch Export Modal**: 1-click bulk export to JSON, CSV, or formatted Markdown.
+- **Authentication**: Google Sign-in with live real-time sync via `onSnapshot`.
