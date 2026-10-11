@@ -1,1284 +1,1059 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ViralShorts Studio — YouTube Shorts Automation Factory</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ViralShorts Studio - YouTube Automation Workspace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+fontFamily: {
+sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+mono: ['"JetBrains Mono"', 'monospace'],
+},
+colors: {
+slate: {
+950: '#07080d',
+900: '#0e111a',
+850: '#131722',
+800: '#1b2030',
+}
+}
+}
+}
+}
+</script>
 <style>
-:root {
---bg: #090a0f;
---card-bg: #0e111a;
---card-inner: #0b0d14;
---card-border: #1a1f2e;
---card-border-hover: #2a3147;
---primary: #f43f5e;
---primary-hover: #e11d48;
---primary-glow: rgba(244, 63, 94, 0.25);
---purple: #a855f7;
---purple-bg: rgba(168, 85, 247, 0.12);
---purple-border: rgba(168, 85, 247, 0.25);
---amber: #f59e0b;
---emerald: #10b981;
---cyan: #06b6d4;
---text-main: #f1f5f9;
---text-muted: #94a3b8;
---text-dim: #64748b;
-}
-code
-Code
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  background-color: var(--bg);
-  color: var(--text-main);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  line-height: 1.5;
+background-color: #07080d;
+color: #f1f5f9;
+font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+overflow-x: hidden;
 }
-
-/* Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+width: 6px;
+height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090a0f;
+background: #0e111a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2436;
-  border-radius: 9999px;
+background: #272f45;
+border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #333d5a;
+background: #e11d48;
 }
-
-/* Header */
-header {
-  background: #0c0e15f2;
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--card-border);
-  padding: 12px 24px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+.neon-glow-red {
+box-shadow: 0 0 25px rgba(225, 29, 72, 0.25);
 }
-
-.brand-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.phone-glass {
+background: radial-gradient(circle at 50% 20%, rgba(225, 29, 72, 0.08) 0%, rgba(14, 17, 26, 0.95) 70%);
 }
-
-.brand-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f43f5e, #fb7185, #f59e0b);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 20px rgba(244, 63, 94, 0.35);
-  color: #fff;
-  font-weight: 800;
-  font-size: 16px;
+@keyframes pulse-subtle {
+0%, 100% { opacity: 1; transform: scale(1); }
+50% { opacity: 0.85; transform: scale(1.02); }
 }
-
-.brand-title {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+.animate-pulse-subtle {
+animation: pulse-subtle 3s ease-in-out infinite;
 }
-.brand-title span {
-  color: var(--primary);
-}
-
-.brand-sub {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.header-pills {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pill {
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.pill-purple {
-  background: var(--purple-bg);
-  color: #d8b4fe;
-  border: 1px solid var(--purple-border);
-}
-.pill-rose {
-  background: rgba(244, 63, 94, 0.12);
-  color: #fda4af;
-  border: 1px solid rgba(244, 63, 94, 0.25);
-}
-.pill-green {
-  background: rgba(16, 185, 129, 0.12);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-/* Sub-nav Tabs */
-.tabs-bar {
-  background: #0b0d14cc;
-  border-bottom: 1px solid var(--card-border);
-  padding: 6px 24px;
-  position: sticky;
-  top: 61px;
-  z-index: 40;
-  backdrop-filter: blur(8px);
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-}
-
-.tab-btn {
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-muted);
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-.tab-btn:hover {
-  color: #fff;
-  background: #141824;
-}
-.tab-btn.active {
-  background: #171c2b;
-  color: #fff;
-  border-color: #2b334a;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-.tab-btn.active .tab-indicator {
-  background: var(--primary);
-}
-
-.tab-badge {
-  background: #252c42;
-  color: #cbd5e1;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Main Container */
-main {
-  flex: 1;
-  max-width: 1440px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 24px;
-  display: flex;
-  gap: 24px;
-  align-items: flex-start;
-}
-
-.content-area {
-  flex: 1;
-  min-width: 0;
-}
-
-/* Dark psychology Banner */
-.rule-banner {
-  background: linear-gradient(135deg, rgba(88, 28, 135, 0.25), rgba(15, 23, 42, 0.6));
-  border: 1px solid rgba(168, 85, 247, 0.35);
-  border-radius: 14px;
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-}
-
-.rule-banner-title {
-  font-size: 13px;
-  font-weight: 800;
-  color: #e9d5ff;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.rule-banner-desc {
-  font-size: 11px;
-  color: #c084fc;
-  margin-top: 2px;
-}
-
-/* Cards */
-.card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
-/* Buttons */
-.btn {
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-  border: none;
-  outline: none;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-  color: #fff;
-  box-shadow: 0 4px 16px var(--primary-glow);
-}
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-}
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-.btn-secondary {
-  background: #171c2b;
-  border: 1px solid #28314a;
-  color: var(--text-main);
-}
-.btn-secondary:hover {
-  background: #20273c;
-  border-color: #3b476b;
-}
-
-.btn-purple {
-  background: var(--purple-bg);
-  border: 1px solid var(--purple-border);
-  color: #e9d5ff;
-}
-.btn-purple:hover {
-  background: rgba(168, 85, 247, 0.25);
-}
-
-/* Metric Grid */
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.metric-card {
-  background: var(--card-inner);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 12px 14px;
-}
-.metric-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.metric-val {
-  font-size: 15px;
-  font-weight: 800;
-  font-family: 'JetBrains Mono', monospace;
-  color: #fff;
-  margin-top: 4px;
-}
-
-/* Prompt Planner Scene Sequence */
-.prompt-cut-card {
-  background: var(--card-inner);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 14px;
-  transition: all 0.2s ease;
-}
-.prompt-cut-card:hover {
-  border-color: var(--card-border-hover);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-}
-
-.cut-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.cut-badge {
-  background: var(--primary);
-  color: #fff;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 800;
-  font-size: 11px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  letter-spacing: 0.05em;
-}
-
-.cut-time {
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--amber);
-  font-size: 12px;
-  font-weight: 700;
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  padding: 2px 8px;
-  border-radius: 6px;
-}
-
-.narration-box {
-  background: #07080d;
-  border: 1px solid #141724;
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 10px;
-}
-.narration-label {
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-.narration-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: #e2e8f0;
-  font-style: italic;
-}
-
-.prompt-box {
-  background: #05060a;
-  border: 1px solid #1c2233;
-  border-radius: 8px;
-  padding: 12px;
-  position: relative;
-}
-.prompt-box-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-.prompt-box-title {
-  font-size: 11px;
-  font-weight: 800;
-  color: #fda4af;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.prompt-text {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11.5px;
-  color: #cbd5e1;
-  line-height: 1.6;
-  word-break: break-word;
-  user-select: all;
-}
-
-.prompt-tag {
-  color: var(--cyan);
-  font-weight: 700;
-}
-
-.prompt-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  justify-content: flex-end;
-}
-
-/* 9:16 Vertical Smartphone Simulator */
-.simulator-panel {
-  width: 320px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 120px;
-}
-
-.phone-frame {
-  width: 100%;
-  aspect-ratio: 9/19;
-  background: #111420;
-  border-radius: 40px;
-  padding: 12px;
-  border: 4px solid #23293d;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(244, 63, 94, 0.15);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.dynamic-island {
-  width: 80px;
-  height: 18px;
-  background: #000;
-  border-radius: 20px;
-  margin: 4px auto 0 auto;
-  z-index: 20;
-}
-
-.phone-screen {
-  flex: 1;
-  border-radius: 28px;
-  background: radial-gradient(circle at center, #1e1330 0%, #08090f 100%);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px 12px;
-  user-select: none;
-}
-
-.screen-overlay-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 10px;
-  font-weight: 700;
-  color: #fff;
-  z-index: 10;
-}
-
-.screen-center {
-  margin: auto 0;
-  text-align: center;
-  z-index: 10;
-}
-
-.on-screen-tag {
-  background: var(--primary);
-  color: #fff;
-  font-weight: 900;
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  display: inline-block;
-  text-transform: uppercase;
-  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.5);
-  margin-bottom: 12px;
-  letter-spacing: 0.05em;
-}
-
-.kinetic-subtitle {
-  background: rgba(0,0,0,0.7);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
-  padding: 10px;
-  border-radius: 12px;
-  color: #fde047;
-  font-weight: 900;
-  font-size: 13px;
-  text-transform: uppercase;
-  line-height: 1.4;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-}
-
-.screen-overlay-bottom {
-  z-index: 10;
-}
-
-.meta-handle {
-  font-size: 11px;
-  font-weight: 800;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
-}
-.meta-handle-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--primary);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 8px;
-}
-
-.meta-text {
-  font-size: 10px;
-  color: #cbd5e1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 8px;
-}
-
-.scrubber-track {
-  width: 100%;
-  height: 4px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.scrubber-progress {
-  width: 0%;
-  height: 100%;
-  background: var(--primary);
-  transition: width 0.1s linear;
-}
-
-/* Simulator Controls */
-.sim-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-/* Toast Notification */
-#toast {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: #10b981;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  display: none;
-  align-items: center;
-  gap: 8px;
-  z-index: 100;
-}
-
-@media (max-width: 1024px) {
-  main {
-    flex-direction: column;
-  }
-  .simulator-panel {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-    position: static;
-  }
+.tab-active {
+background: #1e2538;
+color: #ffffff;
+border-bottom: 2px solid #e11d48;
 }
 </style>
 </head>
-<body>
-<header>
-<div class="brand-wrap">
-<div class="brand-logo">V</div>
+<body class="min-h-screen flex flex-col selection:bg-rose-500/30 selection:text-rose-200">
+<header class="sticky top-0 z-40 bg-[#090b12]/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-600 to-red-600 flex items-center justify-center shadow-lg shadow-rose-600/30 font-black text-white text-base">
+VS
+</div>
 <div>
-<div class="brand-title">ViralShorts <span>Studio</span></div>
-<div class="brand-sub">Dark Psychology 9:16 Automation Pipeline</div>
+<div class="flex items-center gap-2">
+<h1 class="text-base font-extrabold text-white tracking-tight">ViralShorts Studio</h1>
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">9:16 AUTOMATION</span>
+</div>
+<p class="text-[11px] text-slate-400">Dark Psychology & 60-Second Looping Script Splitter</p>
 </div>
 </div>
 code
 Code
-<div class="header-pills">
-  <span class="pill pill-purple">⚡ Dark Psychology Rules Active</span>
-  <span class="pill pill-rose">9 Cuts Structured</span>
-  <span class="pill pill-green">--ar 9:16 Verified</span>
-</div>
-</header>
-<div class="tabs-bar">
-<button class="tab-btn" onclick="switchView('script')">
-60s Script Splitter <span class="tab-badge">94 words</span>
-</button>
-<button class="tab-btn active" onclick="switchView('prompts')">
-<span class="tab-indicator" style="width:6px; height:6px; border-radius:50%; background:var(--primary);"></span>
-Prompt Planner (9 Cuts) <span class="tab-badge">9:16</span>
-</button>
-<button class="tab-btn" onclick="switchView('codeblock')">
-Raw Script Code Block <span class="tab-badge">Styles</span>
-</button>
-</div>
-<main>
-<div class="content-area">
-code
-Code
-<!-- Active System Prompt Rule Banner -->
-  <div class="rule-banner">
-    <div>
-      <div class="rule-banner-title">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 21h22L12 2zm0 3.5L20.3 19H3.7L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
-        Dark Psychology Engine: 9 Scene Cuts Active
-      </div>
-      <div class="rule-banner-desc">
-        85–110 words total • 3–6 words per line • Negative hook • Open loop • Payoff • Abrupt infinite loop • Low-key chiaroscuro lighting
-      </div>
+<div class="flex items-center gap-3">
+    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-slate-300 font-medium">Pipeline Active: 9 Cuts</span>
     </div>
-    <button class="btn btn-purple" onclick="copyAllPrompts()">
-      Copy All 9 Prompts
+    <button id="togglePhoneBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-300 text-xs font-semibold transition-all">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+      <span id="togglePhoneText">Toggle 9:16 Simulator</span>
     </button>
   </div>
-
-  <!-- Script Workspace Tab (Hidden by default, toggleable) -->
-  <div id="view-script" style="display: none;">
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">60-Second Script Splitter</div>
-          <div style="font-size: 12px; color: var(--text-muted);">Strictly under 110 words with seamless loop transition</div>
-        </div>
-        <button class="btn btn-primary" onclick="switchView('prompts')">
-          Open Prompt Planner →
-        </button>
-      </div>
-
-      <div class="metric-grid">
-        <div class="metric-card">
-          <div class="metric-label">Word Count</div>
-          <div class="metric-val" style="color: var(--emerald);">94 / 110 words</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Duration</div>
-          <div class="metric-val" style="color: var(--amber);">~56 Seconds</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Infinite Loop</div>
-          <div class="metric-val" style="color: var(--purple);">99% Seamless</div>
-        </div>
-      </div>
-
-      <div style="background:#06070a; border:1px solid #1a1f2e; border-radius:12px; padding:16px; font-size:13px; line-height:1.7; color:#cbd5e1; font-family:'JetBrains Mono', monospace;">
-        <p><strong style="color:var(--primary);">[0:00 - 0:04] Hook:</strong> Warning. If they do this, they are secretly manipulating you.</p>
-        <p><strong style="color:var(--amber);">[0:04 - 0:11] Open Loop:</strong> Notice their eyes when asking. Average people blink every four seconds.</p>
-        <p><strong style="color:var(--amber);">[0:11 - 0:18] Cue:</strong> Trained manipulators never look away. They lock predatory unblinking contact.</p>
-        <p><strong style="color:var(--amber);">[0:18 - 0:26] Reaction:</strong> This triggers subtle nervous panic. Your subconscious rushes to agree.</p>
-        <p><strong style="color:var(--emerald);">[0:26 - 0:34] Payoff 1:</strong> Never surrender to this silence. Break the hypnotic trance immediately.</p>
-        <p><strong style="color:var(--emerald);">[0:34 - 0:42] Payoff 2:</strong> Count three seconds before speaking. Fix your gaze between their eyebrows.</p>
-        <p><strong style="color:var(--emerald);">[0:42 - 0:50] Payoff 3:</strong> Never blink or look down. Their manufactured dominance shatters instantly.</p>
-        <p><strong style="color:var(--cyan);">[0:50 - 0:56] Climax:</strong> They will panic and over-explain.</p>
-        <p><strong style="color:var(--purple);">[0:56 - 1:00] Loop Bridge:</strong> Because whenever someone tries this on you, <em>[loops seamlessly back to opening hook]</em></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Raw Code Block View Tab -->
-  <div id="view-codeblock" style="display: none;">
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Raw Script Code Block (With Target Prompt Styles)</div>
-          <div style="font-size: 12px; color: var(--text-muted);">Exact output format requested for backend integration</div>
-        </div>
-        <button class="btn btn-primary" onclick="copyCodeBlock()">
-          Copy Code Block
-        </button>
-      </div>
-      <pre id="raw-code" style="background:#05060a; border:1px solid #1a1f2e; border-radius:12px; padding:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:#d8b4fe; overflow-x:auto; line-height:1.6; user-select:all;">
-code
-Text
-[0:00 - 0:04 | Midjourney Style: Dark Chiaroscuro 35mm --ar 9:16] Warning. If they do this, they are secretly manipulating you.
-[0:04 - 0:11 | Midjourney Style: Extreme Close-Up Eye Scan --ar 9:16] Notice their eyes when asking. Average people blink every four seconds.
-[0:11 - 0:18 | Midjourney Style: Cold Boardroom Silhouette --ar 9:16] Trained manipulators never look away. They lock predatory unblinking contact.
-[0:18 - 0:26 | Midjourney Style: Neural Cortex Impulse HUD --ar 9:16] This triggers subtle nervous panic. Your subconscious rushes to agree.
-[0:26 - 0:34 | Midjourney Style: Shattered Obsidian Glass --ar 9:16] Never surrender to this silence. Break the hypnotic trance immediately.
-[0:34 - 0:42 | Midjourney Style: Heavy Vintage Stopwatch --ar 9:16] Count three seconds before speaking. Fix your gaze between their eyebrows.
-[0:42 - 0:50 | Midjourney Style: Fallen Black Chess King --ar 9:16] Never blink or look down. Their manufactured dominance shatters instantly.
-[0:50 - 0:56 | Midjourney Style: Retreating Shadow Figure --ar 9:16] They will panic and over-explain.
-[0:56 - 1:00 | Midjourney Style: Infinite Loop Mirror Chamber --ar 9:16] Because whenever someone tries this on you,
+</div>
+</header>
+<nav class="bg-[#0b0e17] border-b border-slate-800/80 px-4 lg:px-8">
+<div class="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto py-2">
+<button onclick="switchTab('script')" id="tab-script" class="tab-btn tab-active px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+<span>Script & Voiceover Suite</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-rose-500/20 text-rose-300">9 Cuts</span>
+</button>
+<button onclick="switchTab('prompts')" id="tab-prompts" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+<span>Prompt Planner</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-800 text-slate-400">Midjourney</span>
+</button>
+<button onclick="switchTab('ideas')" id="tab-ideas" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+<span>Viral Ideas & Niche</span>
+</button>
+<button onclick="switchTab('queue')" id="tab-queue" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-2">
+<svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+<span>Production Queue</span>
+</button>
+</div>
+</nav>
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6">
+<div class="flex flex-col lg:flex-row gap-6 items-start">
 code
 Code
-</pre>
+<!-- LEFT: WORKSPACE BODY -->
+  <div class="flex-1 w-full min-w-0 space-y-6">
+
+    <!-- CONCEPT INPUT PANEL (VERY TOP OF DASHBOARD) -->
+    <section class="rounded-2xl border border-rose-500/30 bg-gradient-to-br from-[#12101b] via-[#0d0f18] to-[#160d1b] p-5 sm:p-6 shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-rose-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-rose-700 flex items-center justify-center shadow-lg shadow-rose-600/30 text-white shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div>
+              <h2 class="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-2 flex-wrap">
+                <span>Input Video Concept</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-wider">
+                  Generates 9 Scene Cuts & Midjourney Prompts
+                </span>
+              </h2>
+              <p class="text-xs text-slate-400">
+                Type any Dark Psychology topic. System generates 9 cuts, cold punchy narrations (85-110w), and 9:16 Midjourney prompts.
+              </p>
+            </div>
+          </div>
+
+          <div id="genStatusBadge" class="hidden flex items-center gap-2 text-xs font-semibold text-rose-400 bg-rose-950/50 px-3 py-1.5 rounded-xl border border-rose-500/30 animate-pulse">
+            <svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+            <span>Generating 9 Cuts & Prompts...</span>
+          </div>
+        </div>
+
+        <!-- INPUT BOX & GENERATE BUTTON -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div class="relative flex-1">
+            <input
+              id="conceptInput"
+              type="text"
+              placeholder="Enter a video concept (e.g. The Silent Treatment Freeze, 3 Signs Someone Is Lying, Predatory Eye Contact...)"
+              class="w-full px-4 py-3.5 rounded-xl bg-slate-950/90 border border-slate-700/80 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/30 text-slate-100 placeholder:text-slate-500 text-sm font-medium transition-all shadow-inner outline-none"
+            />
+          </div>
+
+          <button
+            id="generateScriptBtn"
+            onclick="handleGenerateCustomConcept()"
+            class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-sm font-extrabold shadow-lg shadow-rose-600/30 transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer active:scale-98"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+            <span>Generate Script</span>
+          </button>
+        </div>
+
+        <!-- QUICK SUGGESTIONS -->
+        <div class="pt-2 border-t border-slate-800/60 flex items-center gap-2 flex-wrap text-xs">
+          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+            <svg class="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"/></svg>
+            Quick Concepts:
+          </span>
+          <button onclick="applyPresetConcept('The Silent Treatment Freeze')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all">The Silent Treatment Freeze</button>
+          <button onclick="applyPresetConcept('3 Signs Someone Is Lying')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all">3 Signs Someone Is Lying</button>
+          <button onclick="applyPresetConcept('Subconscious Vocal Mirroring')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all">Subconscious Vocal Mirroring</button>
+          <button onclick="applyPresetConcept('Predatory Eye Dominance')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all">Predatory Eye Dominance</button>
+          <button onclick="applyPresetConcept('False Vulnerability Trap')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700 transition-all">False Vulnerability Trap</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCRIPT & SEQUENCE TRACKER VIEW -->
+    <div id="view-script" class="space-y-6">
+
+      <!-- PROJECT BANNER -->
+      <div class="rounded-2xl border border-slate-800 bg-[#0e111a] p-5 sm:p-6 shadow-xl">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">9:16 Vertical Short</span>
+              <span class="px-2 py-0.5 rounded-md text-[11px] bg-slate-800 text-slate-300">Niche: Dark Psychology</span>
+              <span class="text-xs text-slate-500">Duration: 56s (9 Cuts)</span>
+            </div>
+            <h2 id="projectTitle" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Dark Psychology: Predatory Eye Dominance</h2>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="handleRegenerate()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-all">
+              <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Regenerate with AI</span>
+            </button>
+            <button onclick="switchTab('prompts')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold shadow-lg shadow-rose-600/20 transition-all">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+              <span>Prompt Planner &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SYSTEM PROMPT RULE BANNER -->
+        <div class="mt-4 p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 flex items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse"></span>
+            <span class="font-bold text-purple-200">Dark Psychology System Prompt Active:</span>
+            <span class="text-purple-300/80">85–110 words &bull; 3–6w punchy lines &bull; Negative hook &bull; Open loop &bull; Payoff &bull; Infinite loop</span>
+          </div>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-900/60 text-purple-300 font-bold border border-purple-500/30">9 Scenes</span>
+        </div>
+
+        <!-- METERS GRID -->
+        <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3 pt-4 border-t border-slate-800/80">
+          <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-300">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Word Count</span>
+              <span id="wordCountBadge" class="text-xs font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400">94w (Target: 85–110w)</span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2.5 overflow-hidden">
+              <div id="wordCountBar" class="h-full bg-emerald-500 transition-all" style="width: 85%;"></div>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-1.5">Strictly 85–110 words allows breathing room for voiceover.</p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 text-slate-300">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Voiceover Pacing</span>
+              <span class="text-xs font-bold font-mono text-amber-400">56s Duration</span>
+            </div>
+            <p class="text-[11px] text-slate-300 mt-2">Ultra-short sentences (3–6w) enforce cold, calculating pacing.</p>
+            <p class="text-[10px] text-slate-500 mt-1">Simulated delivery rate: 1.15x</p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-gradient-to-br from-rose-950/30 to-purple-950/20 border border-rose-500/30 text-slate-300">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-rose-400">Infinite Loop Bridge</span>
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">99% Seamless</span>
+            </div>
+            <div id="loopSentenceText" class="mt-2 text-[11px] text-slate-300 italic line-clamp-2">
+              "...Because whenever someone tries this on you,"
+            </div>
+            <button onclick="testInfiniteLoopVoice()" class="mt-2 text-[10px] font-semibold text-rose-300 hover:text-rose-200 underline flex items-center gap-1">
+              Hear Loop Transition
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEQUENCE TRACKER (INTERACTIVE 9-CUT SCENE TABLE) -->
+      <div class="rounded-2xl border border-slate-800 bg-[#0e111a] overflow-hidden shadow-xl">
+        <div class="px-5 py-3.5 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white">Sequence Tracker &bull; 9 Scene Cuts</h3>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400">Timeline: 0:00 - 1:00</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="playAllVoiceover()" id="playAllBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 text-xs font-semibold">
+              <svg class="w-3.5 h-3.5 text-rose-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+              <span>Listen to Full Script</span>
+            </button>
+            <button onclick="copyFullScript()" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:bg-slate-800 text-xs font-semibold">
+              Copy Script
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950/60 border-b border-slate-800/80 text-slate-400 uppercase tracking-wider font-semibold">
+              <tr>
+                <th class="py-3 px-4 w-16 text-center">Cut #</th>
+                <th class="py-3 px-3 w-28">Pacing</th>
+                <th class="py-3 px-4 min-w-[280px]">Script Narration (Editable)</th>
+                <th class="py-3 px-3 w-32">On-Screen Text</th>
+                <th class="py-3 px-4 min-w-[260px]">Visual Prompt (Midjourney 9:16)</th>
+                <th class="py-3 px-3 w-20 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="sequenceTrackerBody" class="divide-y divide-slate-800/60">
+              <!-- Dynamic 9 Scene Cuts Rendered via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Prompt Planner Column View (Default Active View) -->
-  <div id="view-prompts">
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Prompt Planner — 9 Scene Cuts Sequence</div>
-          <div style="font-size: 12px; color: var(--text-muted);">
-            Advanced Midjourney / Leonardo AI vertical prompts with low-key chiaroscuro lighting and action-matched visuals.
+    <!-- PROMPT PLANNER VIEW -->
+    <div id="view-prompts" class="hidden space-y-6">
+      <div class="rounded-2xl border border-slate-800 bg-[#0e111a] p-5 sm:p-6 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-xl font-black text-white">Prompt Planner &bull; 9 Scene Cuts Column</h2>
+            <p class="text-xs text-slate-400">Strictly formatted with <code class="text-rose-400 font-mono">--ar 9:16</code>, chiaroscuro lighting, deep shadows, and cinematic textures.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="copyAllPrompts()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold transition-all shadow-md">
+              Copy All 9 Prompts (/imagine)
+            </button>
+            <button onclick="switchTab('script')" class="px-3 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-700">
+              &larr; Back to Script
+            </button>
           </div>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-secondary" onclick="exportCsv()">Export CSV</button>
-          <button class="btn btn-primary" onclick="copyAllPrompts()">Copy All for Midjourney</button>
+
+        <!-- STRUCTURED COLUMN FOR THE 9 SCENE CUTS -->
+        <div id="promptPlannerList" class="space-y-4 pt-2">
+          <!-- Rendered via JavaScript -->
         </div>
       </div>
-
-      <!-- Cut 01 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 01 / 09</span>
-            <span class="cut-time">0:00 - 0:04</span>
-            <span style="font-size:11px; color:var(--text-muted);">Opening Negative Hook</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Warning. If they do this, they are secretly manipulating you."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-1">
-            cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain, anamorphic flare, tactile realism <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(1)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(1)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 02 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 02 / 09</span>
-            <span class="cut-time">0:04 - 0:11</span>
-            <span style="font-size:11px; color:var(--text-muted);">The Open Loop (Blink Rate)</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Notice their eyes when asking. Average people blink every four seconds."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-2">
-            cinematic vertical 9:16 extreme close-up chiaroscuro photography of a human pupil dilating in real-time, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, subtle biometric scanning grid reflection <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(2)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(2)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 03 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 03 / 09</span>
-            <span class="cut-time">0:11 - 0:18</span>
-            <span style="font-size:11px; color:var(--text-muted);">Predatory Unblinking Focus</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Trained manipulators never look away. They lock predatory unblinking contact."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-3">
-            cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, menacing unblinking eye contact <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(3)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(3)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 04 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 04 / 09</span>
-            <span class="cut-time">0:18 - 0:26</span>
-            <span style="font-size:11px; color:var(--text-muted);">Autonomic Nervous Panic</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"This triggers subtle nervous panic. Your subconscious rushes to agree."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-4">
-            cinematic vertical 9:16 dark visualization of an obsidian human brain, electric violet neurological panic impulses firing through neural pathways, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(4)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(4)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 05 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 05 / 09</span>
-            <span class="cut-time">0:26 - 0:34</span>
-            <span style="font-size:11px; color:var(--text-muted);">The Payoff: Spell Shattered</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Never surrender to this silence. Break the hypnotic trance immediately."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-5">
-            cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed fracture textures, chiaroscuro photography, dramatic realistic tone, sharp golden light beam <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(5)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(5)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 06 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 06 / 09</span>
-            <span class="cut-time">0:34 - 0:42</span>
-            <span style="font-size:11px; color:var(--text-muted);">The 3-Second Counter Protocol</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Count three seconds before speaking. Fix your gaze between their eyebrows."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-6">
-            cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed brass and scratched glass textures, chiaroscuro photography, dramatic realistic tone, floating dust motes <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(6)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(6)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 07 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 07 / 09</span>
-            <span class="cut-time">0:42 - 0:50</span>
-            <span style="font-size:11px; color:var(--text-muted);">Manufactured Dominance Collapses</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Never blink or look down. Their manufactured dominance shatters instantly."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-7">
-            cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, rim light on carved stone <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(7)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(7)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 08 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 08 / 09</span>
-            <span class="cut-time">0:50 - 0:56</span>
-            <span style="font-size:11px; color:var(--text-muted);">Subconscious Panic & Retreat</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"They will panic and over-explain."</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-8">
-            cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed suit fabric textures, chiaroscuro photography, dramatic realistic tone <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(8)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(8)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cut 09 -->
-      <div class="prompt-cut-card">
-        <div class="cut-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="cut-badge">CUT 09 / 09</span>
-            <span class="cut-time">0:56 - 1:00</span>
-            <span style="font-size:11px; color:var(--text-muted);">The Infinite Loop Bridge</span>
-          </div>
-          <span class="pill pill-green">--ar 9:16</span>
-        </div>
-        <div class="narration-box">
-          <div class="narration-label">Script Narration Action:</div>
-          <div class="narration-text">"Because whenever someone tries this on you,"</div>
-        </div>
-        <div class="prompt-box">
-          <div class="prompt-box-header">
-            <span class="prompt-box-title">Midjourney / Leonardo AI Prompt</span>
-          </div>
-          <div class="prompt-text" id="prompt-9">
-            cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed optical glass textures, chiaroscuro photography, dramatic realistic tone, optical glass distortion <span class="prompt-tag">--ar 9:16</span>
-          </div>
-          <div class="prompt-actions">
-            <button class="btn btn-secondary" onclick="copyImagine(9)">+ /imagine</button>
-            <button class="btn btn-primary" onclick="copyPrompt(9)">Copy Prompt</button>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </div>
 
-</div>
-
-<!-- 9:16 Vertical Smartphone Visual Simulator Column -->
-<div class="simulator-panel">
-  <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; margin-bottom: 10px; display:flex; align-items:center; justify-content:space-between;">
-    <span>9:16 Preview Simulator</span>
-    <span class="pill pill-rose" id="sim-loop-badge">Loop #0</span>
-  </div>
-
-  <div class="phone-frame">
-    <div class="dynamic-island"></div>
-    <div class="phone-screen" id="sim-screen">
-      <div class="screen-overlay-top">
-        <span style="background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:12px; backdrop-filter:blur(4px);">DARK PSYCHOLOGY</span>
-        <span style="color:var(--primary); font-weight:900;" id="sim-time">0:00</span>
-      </div>
-
-      <div class="screen-center">
-        <div class="on-screen-tag" id="sim-tag">WARNING: DANGER</div>
-        <div class="kinetic-subtitle" id="sim-caption">
-          Warning. If they do this, they are secretly manipulating you.
+    <!-- VIRAL IDEAS VIEW -->
+    <div id="view-ideas" class="hidden space-y-6">
+      <div class="rounded-2xl border border-slate-800 bg-[#0e111a] p-5 sm:p-6 shadow-xl space-y-4">
+        <h2 class="text-xl font-black text-white">Viral Short-Form Concept Library</h2>
+        <p class="text-xs text-slate-400">Click any concept below to immediately rewrite all 9 cuts, narration blocks, and prompts.</p>
+        <div id="ideasGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Ideas list -->
         </div>
       </div>
+    </div>
 
-      <div class="screen-overlay-bottom">
-        <div class="meta-handle">
-          <span class="meta-handle-dot">Y</span>
-          <span>@DarkPsychologyShorts</span>
+    <!-- PRODUCTION QUEUE VIEW -->
+    <div id="view-queue" class="hidden space-y-6">
+      <div class="rounded-2xl border border-slate-800 bg-[#0e111a] p-5 sm:p-6 shadow-xl space-y-4">
+        <h2 class="text-xl font-black text-white">Batch Channel Operations Queue</h2>
+        <p class="text-xs text-slate-400">Track multi-video status across Scripted, Asset Generated, and Ready.</p>
+        <div id="queueTableContainer" class="overflow-x-auto">
+          <!-- Queue table -->
         </div>
-        <div class="meta-text" id="sim-cut-label">Cut 01/09 • 0:00 - 0:04</div>
-        <div class="scrubber-track">
-          <div class="scrubber-progress" id="sim-progress"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: 9:16 VERTICAL SIMULATOR COLUMN -->
+  <div id="phoneSimulatorColumn" class="w-full lg:w-[360px] shrink-0 sticky top-20">
+    <div class="rounded-3xl border-4 border-slate-800 bg-black p-3.5 shadow-2xl relative overflow-hidden neon-glow-red">
+      
+      <!-- PHONE SPEAKER & CAMERA NOTCH -->
+      <div class="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-5 bg-slate-900 rounded-full z-30 flex items-center justify-center">
+        <div class="w-3 h-3 rounded-full bg-slate-950 border border-slate-800 mr-2"></div>
+        <div class="w-8 h-1 rounded-full bg-slate-800"></div>
+      </div>
+
+      <!-- 9:16 SCREEN SIMULATOR -->
+      <div class="aspect-[9/16] rounded-2xl relative overflow-hidden bg-slate-950 phone-glass flex flex-col justify-between p-4 z-20 border border-slate-800/80">
+        
+        <!-- TOP OVERLAY -->
+        <div class="pt-6 flex items-center justify-between text-xs text-slate-400 z-10">
+          <span class="px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-rose-400 font-bold border border-rose-500/30">SHORTS SIMULATOR</span>
+          <span id="simCutIndicator" class="font-mono text-[10px] text-slate-300">CUT 1/9 (0:00)</span>
         </div>
+
+        <!-- CENTER KINETIC TEXT / VISUAL PREVIEW -->
+        <div class="my-auto text-center space-y-3 z-10">
+          <div id="simOnScreenBadge" class="inline-block px-3 py-1 rounded bg-rose-600 text-white font-extrabold text-xs uppercase tracking-widest shadow-lg shadow-rose-600/40">
+            WARNING: DANGER
+          </div>
+
+          <div id="simNarrationText" class="text-base font-extrabold text-white leading-tight px-2 drop-shadow-md">
+            Warning. If they do this, they are secretly manipulating you.
+          </div>
+
+          <div id="simPromptExcerpt" class="text-[10px] text-slate-400 font-mono italic px-3 line-clamp-3 bg-black/50 p-2 rounded border border-slate-800">
+            Low-angle macro chiaroscuro photography of cold calculating eyes... --ar 9:16
+          </div>
+        </div>
+
+        <!-- BOTTOM SIMULATOR CONTROLS -->
+        <div class="space-y-3 z-10 pb-2">
+          <div class="w-full bg-slate-800 h-1 rounded-full overflow-hidden">
+            <div id="simProgressBar" class="h-full bg-rose-500 transition-all duration-300" style="width: 11%;"></div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs">
+            <button onclick="prevCut()" class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold">&larr; Prev</button>
+            <button onclick="toggleSimulatorPlay()" id="simPlayBtn" class="px-3.5 py-1 rounded bg-rose-600 hover:bg-rose-500 text-white font-bold flex items-center gap-1">
+              Play Scene
+            </button>
+            <button onclick="nextCut()" class="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold">Next &rarr;</button>
+          </div>
+
+          <div class="text-center">
+            <span class="text-[10px] text-slate-500">Infinite Seamless Loop Enabled</span>
+          </div>
+        </div>
+
+        <!-- BACKGROUND VISUAL EFFECT -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-slate-950/40 to-black/80 pointer-events-none"></div>
       </div>
     </div>
   </div>
 
-  <!-- Controls -->
-  <div class="sim-controls">
-    <button class="btn btn-secondary" onclick="restartSimulator()">Restart</button>
-    <button class="btn btn-primary" id="play-btn" onclick="togglePlaySimulator()">Play 9:16 Preview</button>
-  </div>
 </div>
 </main>
-<div id="toast">
-<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-<span id="toast-msg">Prompt Copied!</span>
-</div>
 <script>
-// 9 Scene Cuts Data
-const scenes = [
+// PRESET DATA ENGINE: 9 SCENE CUTS WITH DARK PSYCHOLOGY ENFORCEMENT
+const DATASETS = {
+"Predatory Eye Dominance": {
+title: "Dark Psychology: Predatory Eye Dominance",
+hook: "Warning. If they do this, they are secretly manipulating you.",
+loopSentence: "Because whenever someone tries this on you,",
+wordCount: 94,
+cuts: [
 {
 index: 1,
 time: "0:00 - 0:04",
-duration: 4,
 narration: "Warning. If they do this, they are secretly manipulating you.",
-tag: "WARNING: DANGER",
-prompt: "cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain, anamorphic flare, tactile realism --ar 9:16"
+onScreen: "WARNING: DANGER",
+prompt: "cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain, tactile realism --ar 9:16",
+camera: "rapid push-in",
+sfx: "deep sub boom"
 },
 {
 index: 2,
 time: "0:04 - 0:11",
-duration: 7,
 narration: "Notice their eyes when asking. Average people blink every four seconds.",
-tag: "EYE ANALYSIS",
-prompt: "cinematic vertical 9:16 extreme close-up chiaroscuro photography of a human pupil dilating in real-time, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, subtle biometric scanning grid reflection --ar 9:16"
+onScreen: "EYE ANALYSIS",
+prompt: "cinematic vertical 9:16 extreme close-up chiaroscuro photography of a human pupil dilating in real-time, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, subtle biometric scanning grid reflection --ar 9:16",
+camera: "slow micro zoom",
+sfx: "biometric scan beep"
 },
 {
 index: 3,
 time: "0:11 - 0:18",
-duration: 7,
 narration: "Trained manipulators never look away. They lock predatory unblinking contact.",
-tag: "PREDATORY GAZE",
-prompt: "cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, menacing unblinking eye contact --ar 9:16"
+onScreen: "PREDATORY GAZE",
+prompt: "cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, menacing unblinking eye contact --ar 9:16",
+camera: "slow orbital rotate",
+sfx: "low frequency drone"
 },
 {
 index: 4,
 time: "0:18 - 0:26",
-duration: 8,
 narration: "This triggers subtle nervous panic. Your subconscious rushes to agree.",
-tag: "INTERNAL PANIC",
-prompt: "cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16"
+onScreen: "INTERNAL PANIC",
+prompt: "cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "fast tracking pulse",
+sfx: "accelerating heartbeat"
 },
 {
 index: 5,
 time: "0:26 - 0:34",
-duration: 8,
 narration: "Never surrender to this silence. Break the hypnotic trance immediately.",
-tag: "BREAK THE SPELL",
-prompt: "cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed fracture textures, chiaroscuro photography, dramatic realistic tone, sharp golden light beam --ar 9:16"
+onScreen: "BREAK THE SPELL",
+prompt: "cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, razor sharp focus --ar 9:16",
+camera: "dolly zoom reverse",
+sfx: "glass impact crack"
 },
 {
 index: 6,
 time: "0:34 - 0:42",
-duration: 8,
 narration: "Count three seconds before speaking. Fix your gaze between their eyebrows.",
-tag: "3-SECOND RULE",
-prompt: "cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed brass and scratched glass textures, chiaroscuro photography, dramatic realistic tone, floating dust motes --ar 9:16"
+onScreen: "3-SECOND RULE",
+prompt: "cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, scratched brass and dust motes --ar 9:16",
+camera: "slow crane rise",
+sfx: "heavy clock click"
 },
 {
 index: 7,
 time: "0:42 - 0:50",
-duration: 8,
 narration: "Never blink or look down. Their manufactured dominance shatters instantly.",
-tag: "DOMINANCE SHATTERS",
-prompt: "cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, rim light on carved stone --ar 9:16"
+onScreen: "DOMINANCE SHATTERS",
+prompt: "cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, rim light on carved stone --ar 9:16",
+camera: "tracking push-in",
+sfx: "heavy chess impact"
 },
 {
 index: 8,
 time: "0:50 - 0:56",
-duration: 6,
 narration: "They will panic and over-explain.",
-tag: "THEY RETREAT",
-prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed suit fabric textures, chiaroscuro photography, dramatic realistic tone --ar 9:16"
+onScreen: "THEY RETREAT",
+prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "pull back",
+sfx: "sub drop"
 },
 {
 index: 9,
 time: "0:56 - 1:00",
-duration: 4,
 narration: "Because whenever someone tries this on you,",
-tag: "INFINITE LOOP",
-prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed optical glass textures, chiaroscuro photography, dramatic realistic tone, optical glass distortion --ar 9:16"
+onScreen: "INFINITE LOOP",
+prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, optical glass distortion --ar 9:16",
+camera: "whip zoom forward",
+sfx: "riser into abrupt cut"
 }
-];
+]
+},
+"The Silent Treatment Freeze": {
+title: "Dark Psychology: The Silent Treatment Freeze",
+hook: "Warning. If they suddenly go cold, they are testing your obedience.",
+loopSentence: "Because whenever someone tries this on you,",
+wordCount: 96,
+cuts: [
+{
+index: 1,
+time: "0:00 - 0:04",
+narration: "Warning. If they suddenly go cold, they are testing your obedience.",
+onScreen: "WARNING: DANGER",
+prompt: "cinematic vertical 9:16 cold silhouette standing motionless in an abandoned concrete corridor with deep black shadows, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "rapid push-in",
+sfx: "deep sub boom"
+},
+{
+index: 2,
+time: "0:04 - 0:11",
+narration: "Notice when they suddenly freeze communication. Average people explain their frustration.",
+onScreen: "COLD FREEZE",
+prompt: "cinematic vertical 9:16 extreme close-up macro chiaroscuro photography of a smartphone screen glowing in the dark with unread unanswered messages, low-key lighting, deep shadows, dark moody background, highly detailed textures --ar 9:16",
+camera: "slow micro zoom",
+sfx: "biometric hum"
+},
+{
+index: 3,
+time: "0:11 - 0:18",
+narration: "Trained manipulators weaponize absolute silence. They make you crave their approval.",
+onScreen: "SILENCE WEAPON",
+prompt: "cinematic vertical 9:16 ominous high-contrast silhouette portrait of a calculated figure in dark room looking coldly away, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "slow orbit",
+sfx: "low drone"
+},
+{
+index: 4,
+time: "0:18 - 0:26",
+narration: "This triggers agonizing internal anxiety. Your brain rushes to apologize.",
+onScreen: "ANXIETY TRIGGER",
+prompt: "cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "tracking pulse",
+sfx: "accelerating heartbeat"
+},
+{
+index: 5,
+time: "0:26 - 0:34",
+narration: "Never surrender to this manipulation. Break their manufactured silence immediately.",
+onScreen: "BREAK THE FREEZE",
+prompt: "cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "dolly zoom reverse",
+sfx: "glass impact crack"
+},
+{
+index: 6,
+time: "0:34 - 0:42",
+narration: "Carry on with complete indifference. Never send a second follow-up text.",
+onScreen: "ZERO REACTION",
+prompt: "cinematic vertical 9:16 vintage mechanical stopwatch frozen precisely at three seconds, golden dust motes in dark shadows, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "slow crane rise",
+sfx: "heavy clock click"
+},
+{
+index: 7,
+time: "0:42 - 0:50",
+narration: "Your calm indifference reverses the trap. Their psychological leverage shatters instantly.",
+onScreen: "POWER REVERSED",
+prompt: "cinematic vertical 9:16 composition of a black chess king toppling over on obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "tracking push-in",
+sfx: "heavy chess impact"
+},
+{
+index: 8,
+time: "0:50 - 0:56",
+narration: "They will panic and reach out.",
+onScreen: "THEY RETREAT",
+prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "pull back",
+sfx: "sub drop"
+},
+{
+index: 9,
+time: "0:56 - 1:00",
+narration: "Because whenever someone tries this on you,",
+onScreen: "INFINITE LOOP",
+prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "whip zoom forward",
+sfx: "riser into abrupt cut"
+}
+]
+},
+"3 Signs Someone Is Lying": {
+title: "Dark Psychology: 3 Signs Someone Is Lying",
+hook: "Warning. They are lying if they touch this part of their face.",
+loopSentence: "Because whenever someone tries this on you,",
+wordCount: 95,
+cuts: [
+{
+index: 1,
+time: "0:00 - 0:04",
+narration: "Warning. They are lying if they touch this part of their face.",
+onScreen: "WARNING: LIAR",
+prompt: "cinematic vertical 9:16 cold calculating eyes staring from dark shadows, chiaroscuro portrait in an obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "rapid push-in",
+sfx: "deep sub boom"
+},
+{
+index: 2,
+time: "0:04 - 0:11",
+narration: "Notice their hand touching their throat. Blood vessels swell under deceptive stress.",
+onScreen: "SIGN 1: THROAT",
+prompt: "cinematic vertical 9:16 extreme close-up macro chiaroscuro shot of tense hand touching neck in low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "slow micro zoom",
+sfx: "pulse beat"
+},
+{
+index: 3,
+time: "0:11 - 0:18",
+narration: "Second cue: their blink rate stalls completely. They lock unnatural artificial focus.",
+onScreen: "SIGN 2: UNBLINKING",
+prompt: "cinematic vertical 9:16 high-contrast silhouette portrait in dark boardroom, cold unblinking eye staring forward, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "slow orbital rotate",
+sfx: "low frequency drone"
+},
+{
+index: 4,
+time: "0:18 - 0:26",
+narration: "Third: they answer in rigid backward order. Fabricated stories always lack natural chronology.",
+onScreen: "SIGN 3: REVERSED",
+prompt: "cinematic vertical 9:16 vintage mechanical clock gears rotating in reverse in deep shadows, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "fast tracking pulse",
+sfx: "reverse gear click"
+},
+{
+index: 5,
+time: "0:26 - 0:34",
+narration: "Never confront their lie directly yet. Let them dig themselves deeper.",
+onScreen: "SILENT TRAP",
+prompt: "cinematic vertical 9:16 cracked obsidian porcelain mask in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "dolly zoom reverse",
+sfx: "glass impact crack"
+},
+{
+index: 6,
+time: "0:34 - 0:42",
+narration: "Ask them one simple inverted question. Watch their story crumble in real-time.",
+onScreen: "THE TEST",
+prompt: "cinematic vertical 9:16 macro shot of vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "slow crane rise",
+sfx: "heavy clock click"
+},
+{
+index: 7,
+time: "0:42 - 0:50",
+narration: "Never validate their excuses. Their manufactured deception shatters instantly.",
+onScreen: "TRUTH PREVAILS",
+prompt: "cinematic vertical 9:16 black chess king toppling over on obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "tracking push-in",
+sfx: "heavy chess impact"
+},
+{
+index: 8,
+time: "0:50 - 0:56",
+narration: "They will panic and stumble.",
+onScreen: "THEY RETREAT",
+prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "pull back",
+sfx: "sub drop"
+},
+{
+index: 9,
+time: "0:56 - 1:00",
+narration: "Because whenever someone tries this on you,",
+onScreen: "INFINITE LOOP",
+prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+camera: "whip zoom forward",
+sfx: "riser into abrupt cut"
+}
+]
+}
+};
 
-const totalSeconds = 56;
-let isPlaying = false;
-let progress = 0;
+// ACTIVE STATE
+let currentConceptKey = "Predatory Eye Dominance";
+let activeProject = DATASETS[currentConceptKey];
+let currentCutIndex = 0;
+let isSimulatorPlaying = false;
 let simInterval = null;
-let loopCount = 0;
 
-// Toast helper
-function showToast(msg) {
-const toast = document.getElementById('toast');
-document.getElementById('toast-msg').textContent = msg;
-toast.style.display = 'flex';
-setTimeout(() => {
-toast.style.display = 'none';
-}, 2200);
+// RENDER SEQUENCE TRACKER
+function renderSequenceTracker() {
+const tbody = document.getElementById("sequenceTrackerBody");
+document.getElementById("projectTitle").innerText = activeProject.title;
+document.getElementById("wordCountBadge").innerText = `${activeProject.wordCount}w (Target: 85–110w)`;
+document.getElementById("loopSentenceText").innerText = `"...${activeProject.loopSentence}"`;
+
+tbody.innerHTML = activeProject.cuts.map((cut, idx) => `
+<tr class="hover:bg-slate-900/60 transition-colors ${currentCutIndex === idx ? 'bg-rose-950/30' : ''}">
+<td class="py-3.5 px-4 text-center font-mono font-bold text-slate-300">
+<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-rose-400 text-xs">#${cut.index}</span>
+</td>
+<td class="py-3.5 px-3 font-mono text-slate-400 text-[11px] whitespace-nowrap">
+${cut.time}
+</td>
+<td class="py-3.5 px-4">
+<textarea
+rows="2"
+onchange="updateCutNarration(${idx}, this.value)"
+class="w-full bg-slate-950/80 border border-slate-800 rounded-lg p-2 text-slate-100 text-xs focus:border-rose-500 focus:outline-none resize-none font-medium"
+>${cut.narration}</textarea>
+code
+Code
+</td>
+      <td class="py-3.5 px-3">
+        <span class="px-2 py-1 rounded bg-slate-900 border border-slate-800 font-bold text-[10px] text-rose-300 uppercase tracking-wider block text-center">
+          ${cut.onScreen}
+        </span>
+      </td>
+      <td class="py-3.5 px-4">
+        <div class="relative group">
+          <p class="font-mono text-[11px] text-slate-300 line-clamp-2 bg-slate-950/90 p-2 rounded border border-slate-800/80">
+            ${cut.prompt}
+          </p>
+          <button onclick="copyText('${cut.prompt.replace(/'/g, "\\'")}')" class="mt-1 text-[10px] text-rose-400 hover:text-rose-300 font-semibold underline">
+            Copy Midjourney Prompt
+          </button>
+        </div>
+      </td>
+      <td class="py-3.5 px-3 text-right">
+        <button onclick="playCutVoice(${idx})" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 transition-all" title="Listen to cut">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+        </button>
+      </td>
+    </tr>
+  `).join('');
+
+  renderPromptPlanner();
+  updateSimulatorUI();
 }
 
-// Copy single prompt
-function copyPrompt(cutNum) {
-const el = document.getElementById(`prompt-${cutNum}`);
-if (el) {
-navigator.clipboard.writeText(el.innerText.trim());
-showToast(`Cut #${cutNum} Prompt Copied (--ar 9:16 Verified)`);
-}
+// RENDER PROMPT PLANNER (COLUMN VIEW OF 9 CUTS)
+function renderPromptPlanner() {
+  const container = document.getElementById("promptPlannerList");
+  container.innerHTML = activeProject.cuts.map((cut, idx) => `
+    <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition-all space-y-2.5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-rose-600/20 text-rose-300 font-bold text-xs flex items-center justify-center">#${cut.index}</span>
+          <span class="text-xs font-bold text-white uppercase tracking-wider">Scene Cut ${cut.index} [${cut.time}]</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-950/60 text-purple-300 border border-purple-500/30">Chiaroscuro 9:16</span>
+        </div>
+        <button onclick="copyImaginePrompt('${cut.prompt.replace(/'/g, "\\'")}')" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition-all flex items-center gap-1">
+          Copy Prompt (/imagine)
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-400 italic">
+        Narration: "${cut.narration}"
+      </div>
+
+      <div class="p-3 rounded-lg bg-black/80 border border-slate-800 font-mono text-xs text-rose-200 select-all">
+        ${cut.prompt}
+      </div>
+
+      <div class="flex items-center justify-between text-[11px] text-slate-500">
+        <span>Camera: <strong class="text-slate-300">${cut.camera}</strong> &bull; Audio: <strong class="text-slate-300">${cut.sfx}</strong></span>
+        <span class="text-rose-400 font-mono font-bold">--ar 9:16</span>
+      </div>
+    </div>
+  `).join('');
 }
 
-// Copy with /imagine
-function copyImagine(cutNum) {
-const el = document.getElementById(`prompt-${cutNum}`);
-if (el) {
-navigator.clipboard.writeText(`/imagine prompt: ${el.innerText.trim()}`);
-showToast(`Cut #${cutNum} Copied for Midjourney Discord!`);
-}
-}
-
-// Copy all 9 prompts
-function copyAllPrompts() {
-const bulk = scenes.map(s => `// Cut #${s.index} [${s.time}] - Narration: "${s.narration}"\n/imagine prompt: ${s.prompt}`).join('\n\n');
-navigator.clipboard.writeText(bulk);
-showToast('All 9 Midjourney 9:16 Prompts Copied!');
-}
-
-// Copy raw code block
-function copyCodeBlock() {
-const raw = document.getElementById('raw-code').innerText.trim();
-navigator.clipboard.writeText(raw);
-showToast('Raw Script Code Block Copied!');
-}
-
-// Export CSV
-function exportCsv() {
-const rows = [
-'Cut_Number,TimeCode,Narration,OnScreenText,Midjourney_Prompt_9_16',
-...scenes.map(s => `${s.index},"${s.time}","${s.narration.replace(/"/g, '""')}","${s.tag}","${s.prompt.replace(/"/g, '""')}"`)
-].join('\n');
-const blob = new Blob([rows], { type: 'text/csv;charset=utf-8;' });
-const url = URL.createObjectURL(blob);
-const a = document.createElement('a');
-a.href = url;
-a.download = 'Dark_Psychology_9_Cuts_Prompt_Sheet.csv';
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
-showToast('CSV Prompt Sheet Downloaded!');
-}
-
-// Tab view switcher
-function switchView(viewName) {
-document.getElementById('view-script').style.display = viewName === 'script' ? 'block' : 'none';
-document.getElementById('view-prompts').style.display = viewName === 'prompts' ? 'block' : 'none';
-document.getElementById('view-codeblock').style.display = viewName === 'codeblock' ? 'block' : 'none';
-
-const buttons = document.querySelectorAll('.tab-btn');
-buttons[0].classList.toggle('active', viewName === 'script');
-buttons[1].classList.toggle('active', viewName === 'prompts');
-buttons[2].classList.toggle('active', viewName === 'codeblock');
-}
-
-// Simulator logic
+// UPDATE PHONE SIMULATOR UI
 function updateSimulatorUI() {
-const currentSeconds = (progress / 100) * totalSeconds;
-let accumulated = 0;
-let activeScene = scenes[0];
-
-for (let i = 0; i < scenes.length; i++) {
-accumulated += scenes[i].duration;
-if (currentSeconds <= accumulated) {
-activeScene = scenes[i];
-break;
-}
+  const cut = activeProject.cuts[currentCutIndex];
+  document.getElementById("simCutIndicator").innerText = `CUT ${cut.index}/9 (${cut.time})`;
+  document.getElementById("simOnScreenBadge").innerText = cut.onScreen;
+  document.getElementById("simNarrationText").innerText = cut.narration;
+  document.getElementById("simPromptExcerpt").innerText = cut.prompt;
+  document.getElementById("simProgressBar").style.width = `${((cut.index) / 9) * 100}%`;
 }
 
-document.getElementById('sim-caption').textContent = activeScene.narration;
-document.getElementById('sim-tag').textContent = activeScene.tag;
-document.getElementById('sim-cut-label').textContent = `Cut 0${activeScene.index}/09 • ${activeScene.time}`;
-document.getElementById('sim-progress').style.width = `${progress}%`;
-
-const m = Math.floor(currentSeconds / 60);
-const s = Math.floor(currentSeconds % 60);
-document.getElementById('sim-time').textContent = `${m}:${String(s).padStart(2, '0')}`;
+// SIMULATOR NAVIGATION
+function nextCut() {
+  currentCutIndex = (currentCutIndex + 1) % activeProject.cuts.length;
+  updateSimulatorUI();
+  renderSequenceTracker();
 }
 
-function togglePlaySimulator() {
-const btn = document.getElementById('play-btn');
-if (isPlaying) {
-clearInterval(simInterval);
-isPlaying = false;
-btn.textContent = 'Play 9:16 Preview';
-} else {
-isPlaying = true;
-btn.textContent = 'Pause Preview';
-simInterval = setInterval(() => {
-progress += 0.5;
-if (progress >= 100) {
-// Infinite loop seamless restart!
-progress = 0;
-loopCount++;
-document.getElementById('sim-loop-badge').textContent = `Loop #${loopCount}`;
-showToast('Seamless Infinite Loop Restarted!');
-}
-updateSimulatorUI();
-}, (totalSeconds * 1000) / 200);
-}
+function prevCut() {
+  currentCutIndex = (currentCutIndex - 1 + activeProject.cuts.length) % activeProject.cuts.length;
+  updateSimulatorUI();
+  renderSequenceTracker();
 }
 
-function restartSimulator() {
-progress = 0;
-updateSimulatorUI();
-if (!isPlaying) {
-togglePlaySimulator();
-}
+function toggleSimulatorPlay() {
+  const btn = document.getElementById("simPlayBtn");
+  if (isSimulatorPlaying) {
+    clearInterval(simInterval);
+    isSimulatorPlaying = false;
+    btn.innerText = "Play Scene";
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  } else {
+    isSimulatorPlaying = true;
+    btn.innerText = "Pause";
+    playCutVoice(currentCutIndex);
+    simInterval = setInterval(() => {
+      nextCut();
+      playCutVoice(currentCutIndex);
+    }, 5000);
+  }
 }
 
-// Initialize UI on load
-updateSimulatorUI();
+// UPDATE NARRATION LIVE
+function updateCutNarration(idx, text) {
+  activeProject.cuts[idx].narration = text;
+  const fullText = activeProject.cuts.map(c => c.narration).join(' ');
+  activeProject.wordCount = fullText.trim().split(/\s+/).filter(Boolean).length;
+  renderSequenceTracker();
+}
+
+// DYNAMIC SCRIPT GENERATION FROM NEW CONCEPT
+function handleGenerateCustomConcept() {
+  const input = document.getElementById("conceptInput").value.trim();
+  if (!input) return;
+
+  const badge = document.getElementById("genStatusBadge");
+  const btn = document.getElementById("generateScriptBtn");
+  badge.classList.remove("hidden");
+  btn.disabled = true;
+
+  setTimeout(() => {
+    // Build dynamic 9-cut script tailored to the input topic
+    const cleanTopic = input.replace(/^(the|a)\s+/i, '');
+    const newTitle = `Dark Psychology: ${input}`;
+    const newHook = `Warning. If they do this, they are secretly using ${cleanTopic.toLowerCase()} on you.`;
+    const loopSentence = "Because whenever someone tries this on you,";
+
+    const dynamicCuts = [
+      {
+        index: 1,
+        time: "0:00 - 0:04",
+        narration: newHook,
+        onScreen: "WARNING: DANGER",
+        prompt: `cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room focusing on ${cleanTopic.toLowerCase()}, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain --ar 9:16`,
+        camera: "rapid push-in",
+        sfx: "deep sub boom"
+      },
+      {
+        index: 2,
+        time: "0:04 - 0:11",
+        narration: `Notice when they execute ${cleanTopic.toLowerCase()}. Average people communicate their intentions clearly.`,
+        onScreen: "BEHAVIOR SCAN",
+        prompt: `cinematic vertical 9:16 extreme close-up chiaroscuro photography of tense calculating human expression executing ${cleanTopic.toLowerCase()}, low-key lighting, deep shadows, dark moody background, highly detailed textures --ar 9:16`,
+        camera: "slow micro zoom",
+        sfx: "biometric scan beep"
+      },
+      {
+        index: 3,
+        time: "0:11 - 0:18",
+        narration: `Trained manipulators do the opposite. They deploy ${cleanTopic.toLowerCase()} calculatedly.`,
+        onScreen: "MANIPULATION TRAP",
+        prompt: `cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
+        camera: "slow orbital rotate",
+        sfx: "low frequency drone"
+      },
+      {
+        index: 4,
+        time: "0:18 - 0:26",
+        narration: "This triggers subtle nervous panic. Your subconscious rushes to seek validation.",
+        onScreen: "INTERNAL PANIC",
+        prompt: `cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures --ar 9:16`,
+        camera: "fast tracking pulse",
+        sfx: "accelerating heartbeat"
+      },
+      {
+        index: 5,
+        time: "0:26 - 0:34",
+        narration: "Never surrender to this tactic. Break the hypnotic trance immediately.",
+        onScreen: "BREAK THE SPELL",
+        prompt: `cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, razor sharp focus --ar 9:16`,
+        camera: "dolly zoom reverse",
+        sfx: "glass impact crack"
+      },
+      {
+        index: 6,
+        time: "0:34 - 0:42",
+        narration: "Hold absolute calm silence instead. Fix your gaze between their eyebrows.",
+        onScreen: "3-SECOND RULE",
+        prompt: `cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, scratched brass --ar 9:16`,
+        camera: "slow crane rise",
+        sfx: "heavy clock click"
+      },
+      {
+        index: 7,
+        time: "0:42 - 0:50",
+        narration: "Never react or defend yourself. Their manufactured power shatters instantly.",
+        onScreen: "POWER SHATTERS",
+        prompt: `cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
+        camera: "tracking push-in",
+        sfx: "heavy chess impact"
+      },
+      {
+        index: 8,
+        time: "0:50 - 0:56",
+        narration: "They will panic and over-explain.",
+        onScreen: "THEY RETREAT",
+        prompt: `cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
+        camera: "pull back",
+        sfx: "sub drop"
+      },
+      {
+        index: 9,
+        time: "0:56 - 1:00",
+        narration: loopSentence,
+        onScreen: "INFINITE LOOP",
+        prompt: `cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
+        camera: "whip zoom forward",
+        sfx: "riser into abrupt cut"
+      }
+    ];
+
+    const fullText = dynamicCuts.map(c => c.narration).join(' ');
+    const totalWords = fullText.trim().split(/\s+/).filter(Boolean).length;
+
+    activeProject = {
+      title: newTitle,
+      hook: newHook,
+      loopSentence: loopSentence,
+      wordCount: totalWords,
+      cuts: dynamicCuts
+    };
+
+    currentCutIndex = 0;
+    renderSequenceTracker();
+
+    badge.classList.add("hidden");
+    btn.disabled = false;
+  }, 700);
+}
+
+function applyPresetConcept(preset) {
+  document.getElementById("conceptInput").value = preset;
+  if (DATASETS[preset]) {
+    activeProject = DATASETS[preset];
+    currentCutIndex = 0;
+    renderSequenceTracker();
+  } else {
+    handleGenerateCustomConcept();
+  }
+}
+
+function handleRegenerate() {
+  handleGenerateCustomConcept();
+}
+
+// SPEECH SYNTHESIS
+function playCutVoice(idx) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const cut = activeProject.cuts[idx];
+  const utter = new SpeechSynthesisUtterance(cut.narration);
+  utter.rate = 1.15;
+  window.speechSynthesis.speak(utter);
+}
+
+function playAllVoiceover() {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const fullText = activeProject.cuts.map(c => c.narration).join(' ');
+  const utter = new SpeechSynthesisUtterance(fullText);
+  utter.rate = 1.15;
+  window.speechSynthesis.speak(utter);
+}
+
+function testInfiniteLoopVoice() {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const loopText = `${activeProject.loopSentence} ... ${activeProject.cuts[0].narration}`;
+  const utter = new SpeechSynthesisUtterance(loopText);
+  utter.rate = 1.15;
+  window.speechSynthesis.speak(utter);
+}
+
+// CLIPBOARD ACTIONS
+function copyText(txt) {
+  navigator.clipboard.writeText(txt);
+  showToast("Copied to clipboard!");
+}
+
+function copyImaginePrompt(txt) {
+  navigator.clipboard.writeText(`/imagine prompt: ${txt}`);
+  showToast("Copied /imagine prompt!");
+}
+
+function copyAllPrompts() {
+  const allText = activeProject.cuts.map(c => `// Scene Cut #${c.index} [${c.time}]\n/imagine prompt: ${c.prompt}`).join('\n\n');
+  navigator.clipboard.writeText(allText);
+  showToast("All 9 Midjourney prompts copied!");
+}
+
+function copyFullScript() {
+  const fullText = activeProject.cuts.map(c => c.narration).join(' ');
+  navigator.clipboard.writeText(fullText);
+  showToast("Full script copied!");
+}
+
+function showToast(msg) {
+  const toast = document.createElement("div");
+  toast.className = "fixed bottom-5 right-5 z-50 bg-rose-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-xl animate-fade-in";
+  toast.innerText = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+
+// TAB NAVIGATION
+function switchTab(tabId) {
+  ['script', 'prompts', 'ideas', 'queue'].forEach(t => {
+    document.getElementById(`view-${t}`).classList.add("hidden");
+    document.getElementById(`tab-${t}`).classList.remove("tab-active", "text-white");
+    document.getElementById(`tab-${t}`).classList.add("text-slate-400");
+  });
+
+  document.getElementById(`view-${tabId}`).classList.remove("hidden");
+  document.getElementById(`tab-${tabId}`).classList.add("tab-active");
+  document.getElementById(`tab-${tabId}`).classList.remove("text-slate-400");
+}
+
+// TOGGLE PHONE SIMULATOR
+document.getElementById("togglePhoneBtn").addEventListener("click", () => {
+  const col = document.getElementById("phoneSimulatorColumn");
+  const txt = document.getElementById("togglePhoneText");
+  if (col.classList.contains("hidden")) {
+    col.classList.remove("hidden");
+    txt.innerText = "Hide 9:16 Simulator";
+  } else {
+    col.classList.add("hidden");
+    txt.innerText = "Show 9:16 Simulator";
+  }
+});
+
+// ENTER KEY FOR SCRIPT GENERATION
+document.getElementById("conceptInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleGenerateCustomConcept();
+  }
+});
+
+// INITIAL BOOT
+renderSequenceTracker();
 </script>
 </body>
 </html>
-         
