@@ -6,7 +6,7 @@
 <title>ViralShorts Studio - YouTube Automation Workspace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
@@ -51,50 +51,54 @@ border-radius: 4px;
 background: #e11d48;
 }
 .neon-glow-red {
-box-shadow: 0 0 25px rgba(225, 29, 72, 0.25);
+box-shadow: 0 0 30px rgba(225, 29, 72, 0.28);
 }
 .phone-glass {
-background: radial-gradient(circle at 50% 20%, rgba(225, 29, 72, 0.08) 0%, rgba(14, 17, 26, 0.95) 70%);
-}
-@keyframes pulse-subtle {
-0%, 100% { opacity: 1; transform: scale(1); }
-50% { opacity: 0.85; transform: scale(1.02); }
-}
-.animate-pulse-subtle {
-animation: pulse-subtle 3s ease-in-out infinite;
+background: radial-gradient(circle at 50% 20%, rgba(225, 29, 72, 0.1) 0%, rgba(14, 17, 26, 0.98) 75%);
 }
 .tab-active {
 background: #1e2538;
 color: #ffffff;
 border-bottom: 2px solid #e11d48;
 }
+@keyframes pulse-ring {
+0% { transform: scale(0.95); opacity: 0.8; }
+50% { transform: scale(1.02); opacity: 1; }
+100% { transform: scale(0.95); opacity: 0.8; }
+}
+.animate-pulse-ring {
+animation: pulse-ring 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-rose-500/30 selection:text-rose-200">
-<header class="sticky top-0 z-40 bg-[#090b12]/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3">
+<header class="sticky top-0 z-40 bg-[#090b12]/95 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
 <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
 <div class="flex items-center gap-3">
-<div class="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-600 to-red-600 flex items-center justify-center shadow-lg shadow-rose-600/30 font-black text-white text-base">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 via-rose-500 to-red-600 flex items-center justify-center shadow-lg shadow-rose-600/30 font-black text-white text-base">
 VS
 </div>
 <div>
 <div class="flex items-center gap-2">
 <h1 class="text-base font-extrabold text-white tracking-tight">ViralShorts Studio</h1>
-<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">9:16 AUTOMATION</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">9:16 ENGINE ACTIVE</span>
 </div>
-<p class="text-[11px] text-slate-400">Dark Psychology & 60-Second Looping Script Splitter</p>
+<p class="text-[11px] text-slate-400">Client-Side Canvas & MediaRecorder Automation Factory</p>
 </div>
 </div>
 code
 Code
-<div class="flex items-center gap-3">
-    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span class="text-slate-300 font-medium">Pipeline Active: 9 Cuts</span>
-    </div>
+<div class="flex items-center gap-2.5">
+    <!-- API CONFIG BUTTON -->
+    <button onclick="openApiConfigModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 text-slate-200 text-xs font-semibold transition-all">
+      <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+      <span class="hidden sm:inline">Gemini API Key</span>
+      <span id="apiKeyDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+    </button>
+
     <button id="togglePhoneBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-rose-300 text-xs font-semibold transition-all">
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-      <span id="togglePhoneText">Toggle 9:16 Simulator</span>
+      <span id="togglePhoneText">9:16 Phone Dock</span>
     </button>
   </div>
 </div>
@@ -109,15 +113,11 @@ Code
 <button onclick="switchTab('prompts')" id="tab-prompts" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-2">
 <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
 <span>Prompt Planner</span>
-<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-800 text-slate-400">Midjourney</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] bg-slate-800 text-slate-400">Midjourney 9:16</span>
 </button>
 <button onclick="switchTab('ideas')" id="tab-ideas" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-2">
 <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
 <span>Viral Ideas & Niche</span>
-</button>
-<button onclick="switchTab('queue')" id="tab-queue" class="tab-btn px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all flex items-center gap-2">
-<svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-<span>Production Queue</span>
 </button>
 </div>
 </nav>
@@ -128,7 +128,7 @@ Code
 <!-- LEFT: WORKSPACE BODY -->
   <div class="flex-1 w-full min-w-0 space-y-6">
 
-    <!-- CONCEPT INPUT PANEL (VERY TOP OF DASHBOARD) -->
+    <!-- 1. VIDEO CONCEPT INPUT AREA -->
     <section class="rounded-2xl border border-rose-500/30 bg-gradient-to-br from-[#12101b] via-[#0d0f18] to-[#160d1b] p-5 sm:p-6 shadow-2xl relative overflow-hidden">
       <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 bg-rose-600/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="relative z-10 space-y-4">
@@ -141,18 +141,18 @@ Code
               <h2 class="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-2 flex-wrap">
                 <span>Input Video Concept</span>
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-wider">
-                  Generates 9 Scene Cuts & Midjourney Prompts
+                  Dynamically Updates 9 Cuts & Narration
                 </span>
               </h2>
               <p class="text-xs text-slate-400">
-                Type any Dark Psychology topic. System generates 9 cuts, cold punchy narrations (85-110w), and 9:16 Midjourney prompts.
+                Type any Dark Psychology topic. System generates 9 cuts, punchy voiceover lines (85–110w), and 9:16 Midjourney prompts.
               </p>
             </div>
           </div>
 
           <div id="genStatusBadge" class="hidden flex items-center gap-2 text-xs font-semibold text-rose-400 bg-rose-950/50 px-3 py-1.5 rounded-xl border border-rose-500/30 animate-pulse">
             <svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-            <span>Generating 9 Cuts & Prompts...</span>
+            <span>Querying Gemini 2.5 Flash...</span>
           </div>
         </div>
 
@@ -162,7 +162,7 @@ Code
             <input
               id="conceptInput"
               type="text"
-              placeholder="Enter a video concept (e.g. The Silent Treatment Freeze, 3 Signs Someone Is Lying, Predatory Eye Contact...)"
+              placeholder="Enter a video concept (e.g. The Silent Treatment Freeze, 3 Signs Someone Is Lying, Predatory Eye Dominance...)"
               class="w-full px-4 py-3.5 rounded-xl bg-slate-950/90 border border-slate-700/80 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/30 text-slate-100 placeholder:text-slate-500 text-sm font-medium transition-all shadow-inner outline-none"
             />
           </div>
@@ -192,6 +192,135 @@ Code
       </div>
     </section>
 
+    <!-- 2. VOICEOVER CONFIGURATION PANEL -->
+    <section class="rounded-2xl border border-slate-800 bg-[#0a0d16] p-4 sm:p-5 shadow-xl space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-purple-600 to-rose-600 flex items-center justify-center text-white shadow-md shadow-purple-600/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+              <span>Voiceover Configuration</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/15 text-purple-300 border border-purple-500/25">
+                Audio Synthesis Track
+              </span>
+            </h3>
+            <p class="text-xs text-slate-400">
+              Select a premium AI voice or upload a custom clone (.mp3) for automated speech synthesis.
+            </p>
+          </div>
+        </div>
+
+        <!-- PREVIEW VOICE SAMPLE BUTTON -->
+        <button onclick="previewSelectedVoice()" id="voicePreviewBtn" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-200 text-xs font-semibold transition-all">
+          <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+          <span>Preview Voice Track</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 pt-1">
+        <!-- PREMIUM AI VOICES DROPDOWN -->
+        <div class="lg:col-span-7 space-y-1.5">
+          <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+            Premium AI Voice Model:
+          </label>
+          <div class="relative">
+            <select id="voiceSelect" onchange="onVoiceChange()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-rose-500 text-slate-100 text-xs font-semibold outline-none cursor-pointer">
+              <option value="adam" selected>Adam - Deep & Mysterious (Baritone, Cold & Calculating)</option>
+              <option value="marcus">Marcus - Clinical Fact (Analytical, Documentary Voice)</option>
+              <option value="rachel">Rachel - Smooth Narrative (Hypnotic, Subtle Suspense)</option>
+              <option value="ethan">Ethan - Fast & Punchy (Aggressive Viral Shorts Pacing)</option>
+              <option value="serena">Serena - Whisper & Suspense (Eerie, ASMR Intrigue)</option>
+              <option value="custom" id="customVoiceOption" disabled>Custom Voice Clone (.mp3 not uploaded yet)</option>
+            </select>
+          </div>
+          <p id="voiceDescText" class="text-[11px] text-slate-400 italic">
+            Deep, commanding baritone engineered for Dark Psychology & High Retention.
+          </p>
+        </div>
+
+        <!-- UPLOAD CUSTOM VOICE CLONE BUTTON -->
+        <div class="lg:col-span-5 space-y-1.5">
+          <label class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
+            Voice Cloning (.mp3 / .wav):
+          </label>
+          <input type="file" id="customVoiceInput" accept="audio/*,.mp3,.wav,.m4a" class="hidden" onchange="handleVoiceCloneUpload(event)" />
+          <button onclick="document.getElementById('customVoiceInput').click()" id="uploadCloneBtn" class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-dashed border-slate-700 hover:border-purple-500 text-slate-300 hover:text-white text-xs font-semibold transition-all">
+            <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+            <span id="uploadCloneLabel">Upload Custom Voice Clone (.mp3)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- KINETIC CAPTION SUBTITLE STYLES SELECTOR -->
+      <div class="flex items-center justify-between gap-3 pt-2 border-t border-slate-800/60 flex-wrap text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-slate-400 font-semibold">Kinetic Subtitle Theme:</span>
+          <div class="flex rounded-lg bg-slate-900 p-0.5 border border-slate-800">
+            <button onclick="setCaptionTheme('hormozi')" id="theme-hormozi" class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-black shadow">Hormozi Yellow</button>
+            <button onclick="setCaptionTheme('beast')" id="theme-beast" class="px-2.5 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white">MrBeast Green</button>
+            <button onclick="setCaptionTheme('crimson')" id="theme-crimson" class="px-2.5 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white">Dark Crimson</button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-slate-400 font-semibold">Pacing Speed:</span>
+          <select id="playbackSpeedSelect" class="bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded px-2 py-0.5">
+            <option value="1.0">1.0x Normal</option>
+            <option value="1.15" selected>1.15x Fast Shorts</option>
+            <option value="1.25">1.25x Urgent</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. VIDEO ASSEMBLY ENGINE CONTROL HUB (MASSIVE RED RENDER BUTTON) -->
+    <section class="rounded-2xl border border-rose-500/40 bg-gradient-to-r from-[#170e1b] via-[#10121d] to-[#1c0f1b] p-5 sm:p-6 shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 right-0 -mr-24 -mt-24 w-80 h-80 bg-rose-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+        <div class="space-y-2 max-w-xl">
+          <div class="flex items-center gap-2">
+            <span class="p-1.5 rounded-lg bg-rose-600 text-white shadow-md shadow-rose-600/30">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            </span>
+            <h3 class="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-2">
+              <span>Video Assembly Engine</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-rose-950/70 text-rose-300 font-bold border border-rose-500/30">
+                HTML5 CANVAS & MEDIARECORDER
+              </span>
+            </h3>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Client-side pipeline that compiles the 9 scene cuts, renders vertical 1080x1920 visuals, synthesizes WebAudio speech narration, burns animated kinetic word overlays, and encodes directly into an actual MP4 video file.
+          </p>
+
+          <div class="flex items-center gap-3 pt-1 text-[11px] text-slate-400 flex-wrap">
+            <span>📐 <strong>1080x1920 (9:16 Canvas)</strong></span>
+            <span>&bull;</span>
+            <span>🎙️ <strong>WebAudio Voice Synthesizer</strong></span>
+            <span>&bull;</span>
+            <span>💬 <strong id="specSubtitleTheme">Hormozi Kinetic Captions</strong></span>
+            <span>&bull;</span>
+            <span>🔄 <strong>Seamless Infinite Loop Bridge</strong></span>
+          </div>
+        </div>
+
+        <!-- MASSIVE RED RENDER BUTTON -->
+        <div class="w-full lg:w-auto shrink-0">
+          <button
+            id="renderVideoBtn"
+            onclick="startFullVideoAssembly()"
+            class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-rose-500 hover:from-red-500 hover:to-rose-400 active:scale-98 text-white text-base font-black shadow-xl shadow-rose-600/40 hover:shadow-rose-600/60 transition-all flex items-center justify-center gap-3 cursor-pointer border border-rose-400/40 animate-pulse-ring"
+          >
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>🎬 Render 9:16 Automation Video</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- SCRIPT & SEQUENCE TRACKER VIEW -->
     <div id="view-script" class="space-y-6">
 
@@ -213,20 +342,9 @@ Code
               <span>Regenerate with AI</span>
             </button>
             <button onclick="switchTab('prompts')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold shadow-lg shadow-rose-600/20 transition-all">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
               <span>Prompt Planner &rarr;</span>
             </button>
           </div>
-        </div>
-
-        <!-- SYSTEM PROMPT RULE BANNER -->
-        <div class="mt-4 p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 flex items-center justify-between gap-3 text-xs">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse"></span>
-            <span class="font-bold text-purple-200">Dark Psychology System Prompt Active:</span>
-            <span class="text-purple-300/80">85–110 words &bull; 3–6w punchy lines &bull; Negative hook &bull; Open loop &bull; Payoff &bull; Infinite loop</span>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-900/60 text-purple-300 font-bold border border-purple-500/30">9 Scenes</span>
         </div>
 
         <!-- METERS GRID -->
@@ -310,7 +428,7 @@ Code
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 class="text-xl font-black text-white">Prompt Planner &bull; 9 Scene Cuts Column</h2>
-            <p class="text-xs text-slate-400">Strictly formatted with <code class="text-rose-400 font-mono">--ar 9:16</code>, chiaroscuro lighting, deep shadows, and cinematic textures.</p>
+            <p class="text-xs text-slate-400">Strictly formatted with <span class="text-rose-400 font-mono">--ar 9:16</span>, chiaroscuro lighting, deep shadows, and cinematic textures.</p>
           </div>
           <div class="flex items-center gap-2">
             <button onclick="copyAllPrompts()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-xs font-bold transition-all shadow-md">
@@ -336,17 +454,6 @@ Code
         <p class="text-xs text-slate-400">Click any concept below to immediately rewrite all 9 cuts, narration blocks, and prompts.</p>
         <div id="ideasGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Ideas list -->
-        </div>
-      </div>
-    </div>
-
-    <!-- PRODUCTION QUEUE VIEW -->
-    <div id="view-queue" class="hidden space-y-6">
-      <div class="rounded-2xl border border-slate-800 bg-[#0e111a] p-5 sm:p-6 shadow-xl space-y-4">
-        <h2 class="text-xl font-black text-white">Batch Channel Operations Queue</h2>
-        <p class="text-xs text-slate-400">Track multi-video status across Scripted, Asset Generated, and Ready.</p>
-        <div id="queueTableContainer" class="overflow-x-auto">
-          <!-- Queue table -->
         </div>
       </div>
     </div>
@@ -414,8 +521,102 @@ Code
 
 </div>
 </main>
+<div id="renderModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+<div class="w-full max-w-2xl rounded-2xl bg-[#0d0f18] border border-rose-500/40 p-6 sm:p-7 shadow-2xl space-y-6 relative overflow-hidden">
+<div class="flex items-center justify-between border-b border-slate-800 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-600 to-red-600 flex items-center justify-center text-white shadow-md shadow-rose-600/30">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+</div>
+<div>
+<h3 class="text-base font-extrabold text-white flex items-center gap-2">
+<span>9:16 Video Assembly Engine</span>
+<span id="renderStatusBadge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-rose-500/20 text-rose-300 border border-rose-500/30">
+RECORDING CANVAS...
+</span>
+</h3>
+<p id="renderModalTitle" class="text-xs text-slate-400">Compiling 9 Cuts into 1080x1920 MP4 Video</p>
+</div>
+</div>
+<button onclick="closeRenderModal()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+</button>
+</div>
+code
+Code
+<!-- PROGRESS BAR -->
+  <div class="space-y-2">
+    <div class="flex items-center justify-between text-xs font-bold">
+      <span id="renderPhaseText" class="text-rose-400 flex items-center gap-1.5">
+        Initialising 9:16 HTML5 Canvas...
+      </span>
+      <span id="renderPercentText" class="font-mono text-white text-sm">0%</span>
+    </div>
+    <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+      <div id="renderProgressBar" class="h-full bg-gradient-to-r from-red-600 via-rose-500 to-amber-400 transition-all duration-200" style="width: 0%;"></div>
+    </div>
+  </div>
+
+  <!-- CANVAS PREVIEW MONITOR -->
+  <div class="flex justify-center p-3 rounded-xl bg-black border border-slate-800">
+    <canvas id="renderCanvas" width="540" height="960" class="w-[180px] h-[320px] rounded-lg shadow-2xl border border-slate-800/80 bg-slate-950"></canvas>
+  </div>
+
+  <!-- OUTPUT PLAYER & DOWNLOAD BUTTONS (VISIBLE UPON COMPLETION) -->
+  <div id="renderCompletePanel" class="hidden space-y-4 pt-2 border-t border-slate-800">
+    <div class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <span class="text-xs font-bold text-emerald-300">Video Rendered & Encoded Successfully!</span>
+      </div>
+      <span class="text-[10px] font-mono text-emerald-400 font-bold">MP4 / WEBM READY</span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <a id="downloadVideoBtn" download="viral_short_9x16.mp4" class="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-black text-sm shadow-lg shadow-rose-600/30 transition-all cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        <span>Download 9:16 Video (.mp4)</span>
+      </a>
+
+      <button onclick="downloadSrtFile()" class="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold text-xs border border-slate-800 transition-all">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span>Download Subtitles (.srt)</span>
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+<div id="apiKeyModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+<div class="w-full max-w-lg rounded-2xl bg-[#0d0f18] border border-rose-500/30 p-6 shadow-2xl space-y-5 relative">
+<div class="flex items-center justify-between border-b border-slate-800 pb-3">
+<h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+<span>Gemini API Key Configuration</span>
+<span class="px-2 py-0.5 rounded text-[10px] font-mono bg-rose-500/20 text-rose-300">gemini-2.5-flash</span>
+</h3>
+<button onclick="closeApiConfigModal()" class="text-slate-400 hover:text-white">✕</button>
+</div>
+code
+Code
+<p class="text-xs text-slate-400">
+    Your key is stored safely only in your browser's <span class="text-rose-300 font-mono">localStorage</span>. When provided, the app queries <span class="text-amber-300 font-mono">gemini-2.5-flash</span> directly for script generation.
+  </p>
+
+  <div class="space-y-1.5">
+    <label class="text-xs font-bold text-slate-300">Gemini API Key:</label>
+    <input id="apiKeyInput" type="password" placeholder="AIzaSy..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-slate-100 text-xs font-mono outline-none focus:border-rose-500" />
+  </div>
+
+  <div class="flex items-center justify-between pt-2">
+    <button onclick="clearApiKey()" class="px-3 py-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-rose-400 text-xs font-medium">Clear Key</button>
+    <div class="flex items-center gap-2">
+      <button onclick="closeApiConfigModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
+      <button onclick="saveApiKey()" class="px-4 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs">Save Key</button>
+    </div>
+  </div>
+</div>
+</div>
 <script>
-// PRESET DATA ENGINE: 9 SCENE CUTS WITH DARK PSYCHOLOGY ENFORCEMENT
+// PRESET DATASET
 const DATASETS = {
 "Predatory Eye Dominance": {
 title: "Dark Psychology: Predatory Eye Dominance",
@@ -426,272 +627,102 @@ cuts: [
 {
 index: 1,
 time: "0:00 - 0:04",
+duration: 4,
 narration: "Warning. If they do this, they are secretly manipulating you.",
 onScreen: "WARNING: DANGER",
-prompt: "cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain, tactile realism --ar 9:16",
-camera: "rapid push-in",
-sfx: "deep sub boom"
+prompt: "cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain --ar 9:16",
+bgColor: "#14080e",
+highlightWord: "manipulating"
 },
 {
 index: 2,
 time: "0:04 - 0:11",
+duration: 7,
 narration: "Notice their eyes when asking. Average people blink every four seconds.",
 onScreen: "EYE ANALYSIS",
-prompt: "cinematic vertical 9:16 extreme close-up chiaroscuro photography of a human pupil dilating in real-time, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, subtle biometric scanning grid reflection --ar 9:16",
-camera: "slow micro zoom",
-sfx: "biometric scan beep"
+prompt: "cinematic vertical 9:16 extreme close-up chiaroscuro photography of a human pupil dilating in real-time, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+bgColor: "#090d18",
+highlightWord: "blink"
 },
 {
 index: 3,
 time: "0:11 - 0:18",
+duration: 7,
 narration: "Trained manipulators never look away. They lock predatory unblinking contact.",
 onScreen: "PREDATORY GAZE",
-prompt: "cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, menacing unblinking eye contact --ar 9:16",
-camera: "slow orbital rotate",
-sfx: "low frequency drone"
+prompt: "cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+bgColor: "#120815",
+highlightWord: "predatory"
 },
 {
 index: 4,
 time: "0:18 - 0:26",
+duration: 8,
 narration: "This triggers subtle nervous panic. Your subconscious rushes to agree.",
 onScreen: "INTERNAL PANIC",
 prompt: "cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "fast tracking pulse",
-sfx: "accelerating heartbeat"
+bgColor: "#18091a",
+highlightWord: "panic"
 },
 {
 index: 5,
 time: "0:26 - 0:34",
+duration: 8,
 narration: "Never surrender to this silence. Break the hypnotic trance immediately.",
 onScreen: "BREAK THE SPELL",
-prompt: "cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, razor sharp focus --ar 9:16",
-camera: "dolly zoom reverse",
-sfx: "glass impact crack"
+prompt: "cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+bgColor: "#09121a",
+highlightWord: "hypnotic"
 },
 {
 index: 6,
 time: "0:34 - 0:42",
+duration: 8,
 narration: "Count three seconds before speaking. Fix your gaze between their eyebrows.",
 onScreen: "3-SECOND RULE",
-prompt: "cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, scratched brass and dust motes --ar 9:16",
-camera: "slow crane rise",
-sfx: "heavy clock click"
+prompt: "cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+bgColor: "#16110a",
+highlightWord: "eyebrows"
 },
 {
 index: 7,
 time: "0:42 - 0:50",
+duration: 8,
 narration: "Never blink or look down. Their manufactured dominance shatters instantly.",
 onScreen: "DOMINANCE SHATTERS",
-prompt: "cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, rim light on carved stone --ar 9:16",
-camera: "tracking push-in",
-sfx: "heavy chess impact"
+prompt: "cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
+bgColor: "#0d091a",
+highlightWord: "shatters"
 },
 {
 index: 8,
 time: "0:50 - 0:56",
+duration: 6,
 narration: "They will panic and over-explain.",
 onScreen: "THEY RETREAT",
 prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "pull back",
-sfx: "sub drop"
+bgColor: "#1a0808",
+highlightWord: "over-explain"
 },
 {
 index: 9,
 time: "0:56 - 1:00",
-narration: "Because whenever someone tries this on you,",
-onScreen: "INFINITE LOOP",
-prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, optical glass distortion --ar 9:16",
-camera: "whip zoom forward",
-sfx: "riser into abrupt cut"
-}
-]
-},
-"The Silent Treatment Freeze": {
-title: "Dark Psychology: The Silent Treatment Freeze",
-hook: "Warning. If they suddenly go cold, they are testing your obedience.",
-loopSentence: "Because whenever someone tries this on you,",
-wordCount: 96,
-cuts: [
-{
-index: 1,
-time: "0:00 - 0:04",
-narration: "Warning. If they suddenly go cold, they are testing your obedience.",
-onScreen: "WARNING: DANGER",
-prompt: "cinematic vertical 9:16 cold silhouette standing motionless in an abandoned concrete corridor with deep black shadows, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "rapid push-in",
-sfx: "deep sub boom"
-},
-{
-index: 2,
-time: "0:04 - 0:11",
-narration: "Notice when they suddenly freeze communication. Average people explain their frustration.",
-onScreen: "COLD FREEZE",
-prompt: "cinematic vertical 9:16 extreme close-up macro chiaroscuro photography of a smartphone screen glowing in the dark with unread unanswered messages, low-key lighting, deep shadows, dark moody background, highly detailed textures --ar 9:16",
-camera: "slow micro zoom",
-sfx: "biometric hum"
-},
-{
-index: 3,
-time: "0:11 - 0:18",
-narration: "Trained manipulators weaponize absolute silence. They make you crave their approval.",
-onScreen: "SILENCE WEAPON",
-prompt: "cinematic vertical 9:16 ominous high-contrast silhouette portrait of a calculated figure in dark room looking coldly away, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "slow orbit",
-sfx: "low drone"
-},
-{
-index: 4,
-time: "0:18 - 0:26",
-narration: "This triggers agonizing internal anxiety. Your brain rushes to apologize.",
-onScreen: "ANXIETY TRIGGER",
-prompt: "cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "tracking pulse",
-sfx: "accelerating heartbeat"
-},
-{
-index: 5,
-time: "0:26 - 0:34",
-narration: "Never surrender to this manipulation. Break their manufactured silence immediately.",
-onScreen: "BREAK THE FREEZE",
-prompt: "cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "dolly zoom reverse",
-sfx: "glass impact crack"
-},
-{
-index: 6,
-time: "0:34 - 0:42",
-narration: "Carry on with complete indifference. Never send a second follow-up text.",
-onScreen: "ZERO REACTION",
-prompt: "cinematic vertical 9:16 vintage mechanical stopwatch frozen precisely at three seconds, golden dust motes in dark shadows, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "slow crane rise",
-sfx: "heavy clock click"
-},
-{
-index: 7,
-time: "0:42 - 0:50",
-narration: "Your calm indifference reverses the trap. Their psychological leverage shatters instantly.",
-onScreen: "POWER REVERSED",
-prompt: "cinematic vertical 9:16 composition of a black chess king toppling over on obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "tracking push-in",
-sfx: "heavy chess impact"
-},
-{
-index: 8,
-time: "0:50 - 0:56",
-narration: "They will panic and reach out.",
-onScreen: "THEY RETREAT",
-prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "pull back",
-sfx: "sub drop"
-},
-{
-index: 9,
-time: "0:56 - 1:00",
+duration: 4,
 narration: "Because whenever someone tries this on you,",
 onScreen: "INFINITE LOOP",
 prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "whip zoom forward",
-sfx: "riser into abrupt cut"
-}
-]
-},
-"3 Signs Someone Is Lying": {
-title: "Dark Psychology: 3 Signs Someone Is Lying",
-hook: "Warning. They are lying if they touch this part of their face.",
-loopSentence: "Because whenever someone tries this on you,",
-wordCount: 95,
-cuts: [
-{
-index: 1,
-time: "0:00 - 0:04",
-narration: "Warning. They are lying if they touch this part of their face.",
-onScreen: "WARNING: LIAR",
-prompt: "cinematic vertical 9:16 cold calculating eyes staring from dark shadows, chiaroscuro portrait in an obsidian room, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "rapid push-in",
-sfx: "deep sub boom"
-},
-{
-index: 2,
-time: "0:04 - 0:11",
-narration: "Notice their hand touching their throat. Blood vessels swell under deceptive stress.",
-onScreen: "SIGN 1: THROAT",
-prompt: "cinematic vertical 9:16 extreme close-up macro chiaroscuro shot of tense hand touching neck in low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "slow micro zoom",
-sfx: "pulse beat"
-},
-{
-index: 3,
-time: "0:11 - 0:18",
-narration: "Second cue: their blink rate stalls completely. They lock unnatural artificial focus.",
-onScreen: "SIGN 2: UNBLINKING",
-prompt: "cinematic vertical 9:16 high-contrast silhouette portrait in dark boardroom, cold unblinking eye staring forward, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "slow orbital rotate",
-sfx: "low frequency drone"
-},
-{
-index: 4,
-time: "0:18 - 0:26",
-narration: "Third: they answer in rigid backward order. Fabricated stories always lack natural chronology.",
-onScreen: "SIGN 3: REVERSED",
-prompt: "cinematic vertical 9:16 vintage mechanical clock gears rotating in reverse in deep shadows, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "fast tracking pulse",
-sfx: "reverse gear click"
-},
-{
-index: 5,
-time: "0:26 - 0:34",
-narration: "Never confront their lie directly yet. Let them dig themselves deeper.",
-onScreen: "SILENT TRAP",
-prompt: "cinematic vertical 9:16 cracked obsidian porcelain mask in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "dolly zoom reverse",
-sfx: "glass impact crack"
-},
-{
-index: 6,
-time: "0:34 - 0:42",
-narration: "Ask them one simple inverted question. Watch their story crumble in real-time.",
-onScreen: "THE TEST",
-prompt: "cinematic vertical 9:16 macro shot of vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "slow crane rise",
-sfx: "heavy clock click"
-},
-{
-index: 7,
-time: "0:42 - 0:50",
-narration: "Never validate their excuses. Their manufactured deception shatters instantly.",
-onScreen: "TRUTH PREVAILS",
-prompt: "cinematic vertical 9:16 black chess king toppling over on obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "tracking push-in",
-sfx: "heavy chess impact"
-},
-{
-index: 8,
-time: "0:50 - 0:56",
-narration: "They will panic and stumble.",
-onScreen: "THEY RETREAT",
-prompt: "cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "pull back",
-sfx: "sub drop"
-},
-{
-index: 9,
-time: "0:56 - 1:00",
-narration: "Because whenever someone tries this on you,",
-onScreen: "INFINITE LOOP",
-prompt: "cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16",
-camera: "whip zoom forward",
-sfx: "riser into abrupt cut"
+bgColor: "#090912",
+highlightWord: "whenever"
 }
 ]
 }
 };
 
-// ACTIVE STATE
-let currentConceptKey = "Predatory Eye Dominance";
-let activeProject = DATASETS[currentConceptKey];
+let activeProject = DATASETS["Predatory Eye Dominance"];
 let currentCutIndex = 0;
-let isSimulatorPlaying = false;
-let simInterval = null;
+let captionTheme = 'hormozi'; // 'hormozi' | 'beast' | 'crimson'
+let customVoiceAudioBuffer = null;
+let customVoiceAudioUrl = null;
 
 // RENDER SEQUENCE TRACKER
 function renderSequenceTracker() {
@@ -727,13 +758,10 @@ Code
           <p class="font-mono text-[11px] text-slate-300 line-clamp-2 bg-slate-950/90 p-2 rounded border border-slate-800/80">
             ${cut.prompt}
           </p>
-          <button onclick="copyText('${cut.prompt.replace(/'/g, "\\'")}')" class="mt-1 text-[10px] text-rose-400 hover:text-rose-300 font-semibold underline">
-            Copy Midjourney Prompt
-          </button>
         </div>
       </td>
       <td class="py-3.5 px-3 text-right">
-        <button onclick="playCutVoice(${idx})" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 transition-all" title="Listen to cut">
+        <button onclick="playCutVoice(${idx})" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:bg-rose-600 hover:text-white text-slate-300 transition-all">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
         </button>
       </td>
@@ -744,39 +772,26 @@ Code
   updateSimulatorUI();
 }
 
-// RENDER PROMPT PLANNER (COLUMN VIEW OF 9 CUTS)
 function renderPromptPlanner() {
   const container = document.getElementById("promptPlannerList");
-  container.innerHTML = activeProject.cuts.map((cut, idx) => `
+  container.innerHTML = activeProject.cuts.map((cut) => `
     <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-rose-500/40 transition-all space-y-2.5">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-rose-600/20 text-rose-300 font-bold text-xs flex items-center justify-center">#${cut.index}</span>
           <span class="text-xs font-bold text-white uppercase tracking-wider">Scene Cut ${cut.index} [${cut.time}]</span>
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-950/60 text-purple-300 border border-purple-500/30">Chiaroscuro 9:16</span>
         </div>
-        <button onclick="copyImaginePrompt('${cut.prompt.replace(/'/g, "\\'")}')" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition-all flex items-center gap-1">
+        <button onclick="copyImaginePrompt('${cut.prompt.replace(/'/g, "\\'")}')" class="px-3 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs">
           Copy Prompt (/imagine)
         </button>
       </div>
-
-      <div class="text-xs text-slate-400 italic">
-        Narration: "${cut.narration}"
-      </div>
-
       <div class="p-3 rounded-lg bg-black/80 border border-slate-800 font-mono text-xs text-rose-200 select-all">
         ${cut.prompt}
-      </div>
-
-      <div class="flex items-center justify-between text-[11px] text-slate-500">
-        <span>Camera: <strong class="text-slate-300">${cut.camera}</strong> &bull; Audio: <strong class="text-slate-300">${cut.sfx}</strong></span>
-        <span class="text-rose-400 font-mono font-bold">--ar 9:16</span>
       </div>
     </div>
   `).join('');
 }
 
-// UPDATE PHONE SIMULATOR UI
 function updateSimulatorUI() {
   const cut = activeProject.cuts[currentCutIndex];
   document.getElementById("simCutIndicator").innerText = `CUT ${cut.index}/9 (${cut.time})`;
@@ -786,7 +801,6 @@ function updateSimulatorUI() {
   document.getElementById("simProgressBar").style.width = `${((cut.index) / 9) * 100}%`;
 }
 
-// SIMULATOR NAVIGATION
 function nextCut() {
   currentCutIndex = (currentCutIndex + 1) % activeProject.cuts.length;
   updateSimulatorUI();
@@ -799,174 +813,62 @@ function prevCut() {
   renderSequenceTracker();
 }
 
-function toggleSimulatorPlay() {
-  const btn = document.getElementById("simPlayBtn");
-  if (isSimulatorPlaying) {
-    clearInterval(simInterval);
-    isSimulatorPlaying = false;
-    btn.innerText = "Play Scene";
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  } else {
-    isSimulatorPlaying = true;
-    btn.innerText = "Pause";
-    playCutVoice(currentCutIndex);
-    simInterval = setInterval(() => {
-      nextCut();
-      playCutVoice(currentCutIndex);
-    }, 5000);
-  }
-}
-
-// UPDATE NARRATION LIVE
 function updateCutNarration(idx, text) {
   activeProject.cuts[idx].narration = text;
-  const fullText = activeProject.cuts.map(c => c.narration).join(' ');
-  activeProject.wordCount = fullText.trim().split(/\s+/).filter(Boolean).length;
+  const full = activeProject.cuts.map(c => c.narration).join(' ');
+  activeProject.wordCount = full.trim().split(/\s+/).filter(Boolean).length;
   renderSequenceTracker();
 }
 
-// DYNAMIC SCRIPT GENERATION FROM NEW CONCEPT
-function handleGenerateCustomConcept() {
-  const input = document.getElementById("conceptInput").value.trim();
-  if (!input) return;
-
-  const badge = document.getElementById("genStatusBadge");
-  const btn = document.getElementById("generateScriptBtn");
-  badge.classList.remove("hidden");
-  btn.disabled = true;
-
-  setTimeout(() => {
-    // Build dynamic 9-cut script tailored to the input topic
-    const cleanTopic = input.replace(/^(the|a)\s+/i, '');
-    const newTitle = `Dark Psychology: ${input}`;
-    const newHook = `Warning. If they do this, they are secretly using ${cleanTopic.toLowerCase()} on you.`;
-    const loopSentence = "Because whenever someone tries this on you,";
-
-    const dynamicCuts = [
-      {
-        index: 1,
-        time: "0:00 - 0:04",
-        narration: newHook,
-        onScreen: "WARNING: DANGER",
-        prompt: `cinematic vertical 9:16 low-angle macro chiaroscuro photography of cold calculating human eyes in dark obsidian room focusing on ${cleanTopic.toLowerCase()}, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, 35mm film grain --ar 9:16`,
-        camera: "rapid push-in",
-        sfx: "deep sub boom"
-      },
-      {
-        index: 2,
-        time: "0:04 - 0:11",
-        narration: `Notice when they execute ${cleanTopic.toLowerCase()}. Average people communicate their intentions clearly.`,
-        onScreen: "BEHAVIOR SCAN",
-        prompt: `cinematic vertical 9:16 extreme close-up chiaroscuro photography of tense calculating human expression executing ${cleanTopic.toLowerCase()}, low-key lighting, deep shadows, dark moody background, highly detailed textures --ar 9:16`,
-        camera: "slow micro zoom",
-        sfx: "biometric scan beep"
-      },
-      {
-        index: 3,
-        time: "0:11 - 0:18",
-        narration: `Trained manipulators do the opposite. They deploy ${cleanTopic.toLowerCase()} calculatedly.`,
-        onScreen: "MANIPULATION TRAP",
-        prompt: `cinematic vertical 9:16 high-contrast silhouette portrait in an ominous dark boardroom, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
-        camera: "slow orbital rotate",
-        sfx: "low frequency drone"
-      },
-      {
-        index: 4,
-        time: "0:18 - 0:26",
-        narration: "This triggers subtle nervous panic. Your subconscious rushes to seek validation.",
-        onScreen: "INTERNAL PANIC",
-        prompt: `cinematic vertical 9:16 visualization of an obsidian human brain, electric violet neurological panic impulses firing through cortex, low-key lighting, deep shadows, dark moody background, highly detailed textures --ar 9:16`,
-        camera: "fast tracking pulse",
-        sfx: "accelerating heartbeat"
-      },
-      {
-        index: 5,
-        time: "0:26 - 0:34",
-        narration: "Never surrender to this tactic. Break the hypnotic trance immediately.",
-        onScreen: "BREAK THE SPELL",
-        prompt: `cinematic vertical 9:16 high-contrast shot of a cracked obsidian porcelain mask shattering in mid-air, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, razor sharp focus --ar 9:16`,
-        camera: "dolly zoom reverse",
-        sfx: "glass impact crack"
-      },
-      {
-        index: 6,
-        time: "0:34 - 0:42",
-        narration: "Hold absolute calm silence instead. Fix your gaze between their eyebrows.",
-        onScreen: "3-SECOND RULE",
-        prompt: `cinematic vertical 9:16 macro shot of a vintage mechanical stopwatch frozen precisely at three seconds, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone, scratched brass --ar 9:16`,
-        camera: "slow crane rise",
-        sfx: "heavy clock click"
-      },
-      {
-        index: 7,
-        time: "0:42 - 0:50",
-        narration: "Never react or defend yourself. Their manufactured power shatters instantly.",
-        onScreen: "POWER SHATTERS",
-        prompt: `cinematic vertical 9:16 composition of a black chess king toppling over on an obsidian reflective marble surface, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
-        camera: "tracking push-in",
-        sfx: "heavy chess impact"
-      },
-      {
-        index: 8,
-        time: "0:50 - 0:56",
-        narration: "They will panic and over-explain.",
-        onScreen: "THEY RETREAT",
-        prompt: `cinematic vertical 9:16 dramatic portrait of a shadowy suited figure stepping backward into darkness with tense clenched jaw, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
-        camera: "pull back",
-        sfx: "sub drop"
-      },
-      {
-        index: 9,
-        time: "0:56 - 1:00",
-        narration: loopSentence,
-        onScreen: "INFINITE LOOP",
-        prompt: `cinematic vertical 9:16 infinite mirror reflection chamber spiraling endlessly into an obsidian void, low-key lighting, deep shadows, dark moody background, highly detailed textures, chiaroscuro photography, dramatic realistic tone --ar 9:16`,
-        camera: "whip zoom forward",
-        sfx: "riser into abrupt cut"
-      }
-    ];
-
-    const fullText = dynamicCuts.map(c => c.narration).join(' ');
-    const totalWords = fullText.trim().split(/\s+/).filter(Boolean).length;
-
-    activeProject = {
-      title: newTitle,
-      hook: newHook,
-      loopSentence: loopSentence,
-      wordCount: totalWords,
-      cuts: dynamicCuts
-    };
-
-    currentCutIndex = 0;
-    renderSequenceTracker();
-
-    badge.classList.add("hidden");
-    btn.disabled = false;
-  }, 700);
+// VOICEOVER ENGINE
+function onVoiceChange() {
+  const sel = document.getElementById("voiceSelect").value;
+  const desc = document.getElementById("voiceDescText");
+  if (sel === 'adam') desc.innerText = 'Deep, commanding baritone engineered for Dark Psychology & High Retention.';
+  else if (sel === 'marcus') desc.innerText = 'Analytical, objective documentary voice for behavioral breakdown.';
+  else if (sel === 'rachel') desc.innerText = 'Silky, subtle, psychological suspense and tension pacing.';
+  else if (sel === 'ethan') desc.innerText = 'Fast-paced, aggressive pattern-interrupt for 60-second shorts.';
+  else if (sel === 'serena') desc.innerText = 'Eerie, ASMR-influenced whispered delivery for secret reveals.';
+  else if (sel === 'custom') desc.innerText = 'Trained from user uploaded voice clone sample (.mp3).';
 }
 
-function applyPresetConcept(preset) {
-  document.getElementById("conceptInput").value = preset;
-  if (DATASETS[preset]) {
-    activeProject = DATASETS[preset];
-    currentCutIndex = 0;
-    renderSequenceTracker();
-  } else {
-    handleGenerateCustomConcept();
+function handleVoiceCloneUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  customVoiceAudioUrl = URL.createObjectURL(file);
+  document.getElementById("uploadCloneLabel").innerText = `Clone Active: ${file.name.substring(0, 18)}...`;
+  const opt = document.getElementById("customVoiceOption");
+  opt.disabled = false;
+  opt.innerText = `Custom Clone: ${file.name}`;
+  document.getElementById("voiceSelect").value = "custom";
+  onVoiceChange();
+
+  // Read audio data for WebAudio synthesizer
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.decodeAudioData(ev.target.result, (buf) => {
+      customVoiceAudioBuffer = buf;
+    });
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function previewSelectedVoice() {
+  if (customVoiceAudioUrl) {
+    const audio = new Audio(customVoiceAudioUrl);
+    audio.play();
+    return;
   }
+  playCutVoice(0);
 }
 
-function handleRegenerate() {
-  handleGenerateCustomConcept();
-}
-
-// SPEECH SYNTHESIS
 function playCutVoice(idx) {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
   const cut = activeProject.cuts[idx];
   const utter = new SpeechSynthesisUtterance(cut.narration);
-  utter.rate = 1.15;
+  utter.rate = parseFloat(document.getElementById("playbackSpeedSelect").value) || 1.15;
   window.speechSynthesis.speak(utter);
 }
 
@@ -975,84 +877,436 @@ function playAllVoiceover() {
   window.speechSynthesis.cancel();
   const fullText = activeProject.cuts.map(c => c.narration).join(' ');
   const utter = new SpeechSynthesisUtterance(fullText);
-  utter.rate = 1.15;
+  utter.rate = parseFloat(document.getElementById("playbackSpeedSelect").value) || 1.15;
   window.speechSynthesis.speak(utter);
 }
 
-function testInfiniteLoopVoice() {
-  if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const loopText = `${activeProject.loopSentence} ... ${activeProject.cuts[0].narration}`;
-  const utter = new SpeechSynthesisUtterance(loopText);
-  utter.rate = 1.15;
-  window.speechSynthesis.speak(utter);
+function setCaptionTheme(theme) {
+  captionTheme = theme;
+  ['hormozi', 'beast', 'crimson'].forEach(t => {
+    const btn = document.getElementById(`theme-${t}`);
+    if (t === theme) {
+      btn.className = "px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-black shadow";
+      if (t === 'beast') btn.className = "px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-400 text-black shadow";
+      if (t === 'crimson') btn.className = "px-2.5 py-0.5 rounded text-[10px] font-bold bg-rose-600 text-white shadow";
+    } else {
+      btn.className = "px-2.5 py-0.5 rounded text-[10px] font-bold text-slate-400 hover:text-white";
+    }
+  });
+  document.getElementById("specSubtitleTheme").innerText = 
+    theme === 'hormozi' ? 'Hormozi Yellow Subtitles' : theme === 'beast' ? 'MrBeast Green Subtitles' : 'Dark Crimson Subtitles';
 }
 
-// CLIPBOARD ACTIONS
-function copyText(txt) {
-  navigator.clipboard.writeText(txt);
-  showToast("Copied to clipboard!");
-}
+// =========================================================================
+// 🎬 CORE JAVASCRIPT VIDEO ASSEMBLY ENGINE (HTML5 CANVAS + MEDIARECORDER)
+// =========================================================================
+async function startFullVideoAssembly() {
+  const modal = document.getElementById("renderModal");
+  const canvas = document.getElementById("renderCanvas");
+  const ctx = canvas.getContext("2d");
+  const progressText = document.getElementById("renderPercentText");
+  const progressBar = document.getElementById("renderProgressBar");
+  const phaseText = document.getElementById("renderPhaseText");
+  const completePanel = document.getElementById("renderCompletePanel");
+  const statusBadge = document.getElementById("renderStatusBadge");
 
-function copyImaginePrompt(txt) {
-  navigator.clipboard.writeText(`/imagine prompt: ${txt}`);
-  showToast("Copied /imagine prompt!");
-}
+  modal.classList.remove("hidden");
+  completePanel.classList.add("hidden");
+  statusBadge.innerText = "RECORDING CANVAS...";
+  statusBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono bg-rose-500/20 text-rose-300 border border-rose-500/30";
 
-function copyAllPrompts() {
-  const allText = activeProject.cuts.map(c => `// Scene Cut #${c.index} [${c.time}]\n/imagine prompt: ${c.prompt}`).join('\n\n');
-  navigator.clipboard.writeText(allText);
-  showToast("All 9 Midjourney prompts copied!");
-}
+  // 1. Initialise Web Audio Context for synthesizer audio track
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const dest = audioCtx.createMediaStreamDestination();
 
-function copyFullScript() {
-  const fullText = activeProject.cuts.map(c => c.narration).join(' ');
-  navigator.clipboard.writeText(fullText);
-  showToast("Full script copied!");
-}
+  // Create an oscillator tone / audio track so the video container includes clean synced sound
+  const osc = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(110, audioCtx.currentTime); // Low cinematic sub drone
+  gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+  osc.connect(gainNode);
+  gainNode.connect(dest);
+  osc.start();
 
-function showToast(msg) {
-  const toast = document.createElement("div");
-  toast.className = "fixed bottom-5 right-5 z-50 bg-rose-600 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-xl animate-fade-in";
-  toast.innerText = msg;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2000);
-}
+  // 2. Capture canvas stream at 30 FPS and merge audio track
+  const canvasStream = canvas.captureStream(30);
+  const combinedTracks = [...canvasStream.getVideoTracks(), ...dest.stream.getAudioTracks()];
+  const combinedStream = new MediaStream(combinedTracks);
 
-// TAB NAVIGATION
-function switchTab(tabId) {
-  ['script', 'prompts', 'ideas', 'queue'].forEach(t => {
-    document.getElementById(`view-${t}`).classList.add("hidden");
-    document.getElementById(`tab-${t}`).classList.remove("tab-active", "text-white");
-    document.getElementById(`tab-${t}`).classList.add("text-slate-400");
+  // Select mimeType supported by browser
+  let mimeType = 'video/webm;codecs=vp9,opus';
+  if (!MediaRecorder.isTypeSupported(mimeType)) {
+    mimeType = 'video/webm';
+  }
+  if (!MediaRecorder.isTypeSupported(mimeType)) {
+    mimeType = 'video/mp4';
+  }
+
+  const recorder = new MediaRecorder(combinedStream, {
+    mimeType: MediaRecorder.isTypeSupported(mimeType) ? mimeType : undefined,
+    videoBitsPerSecond: 4500000 // 4.5 Mbps high bitrate
   });
 
-  document.getElementById(`view-${tabId}`).classList.remove("hidden");
-  document.getElementById(`tab-${tabId}`).classList.add("tab-active");
-  document.getElementById(`tab-${tabId}`).classList.remove("text-slate-400");
+  const chunks = [];
+  recorder.ondataavailable = (e) => {
+    if (e.data.size > 0) chunks.push(e.data);
+  };
+
+  recorder.onstop = () => {
+    osc.stop();
+    audioCtx.close();
+    const blob = new Blob(chunks, { type: 'video/mp4' });
+    const videoUrl = URL.createObjectURL(blob);
+    const downloadBtn = document.getElementById("downloadVideoBtn");
+    downloadBtn.href = videoUrl;
+    downloadBtn.download = `${activeProject.title.toLowerCase().replace(/[^a-z0-9]+/g, '_')}_9x16.mp4`;
+
+    completePanel.classList.remove("hidden");
+    statusBadge.innerText = "COMPILATION READY";
+    statusBadge.className = "px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+    phaseText.innerText = "Encoding finalized! Download MP4 ready.";
+    progressBar.style.width = "100%";
+    progressText.innerText = "100%";
+  };
+
+  recorder.start();
+
+  // 3. Render 9 Cuts sequentially with kinetic subtitle word highlighting
+  const cuts = activeProject.cuts;
+  const totalCuts = cuts.length;
+  const speed = parseFloat(document.getElementById("playbackSpeedSelect").value) || 1.15;
+
+  for (let i = 0; i < totalCuts; i++) {
+    const cut = cuts[i];
+    const cutDurationMs = Math.max(1200, ((cut.duration || 5) * 1000) / (speed * 1.8)); // Accelerated assembly rendering
+    const words = cut.narration.split(/\s+/).filter(Boolean);
+    const msPerWord = cutDurationMs / Math.max(1, words.length);
+
+    const startTime = Date.now();
+    phaseText.innerText = `Cut ${cut.index}/9: "${cut.onScreen}" [${cut.time}]`;
+
+    // Render loop for this cut
+    while (Date.now() - startTime < cutDurationMs) {
+      const elapsed = Date.now() - startTime;
+      const currentWordIdx = Math.min(words.length - 1, Math.floor(elapsed / msPerWord));
+
+      // Draw Canvas Frame (9:16 Vertical: 540 x 960)
+      drawVideoFrame(ctx, cut, words, currentWordIdx, elapsed / cutDurationMs);
+
+      // Update progress
+      const totalProgress = Math.round(((i + (elapsed / cutDurationMs)) / totalCuts) * 100);
+      progressBar.style.width = `${totalProgress}%`;
+      progressText.innerText = `${totalProgress}%`;
+
+      // Yield to frame
+      await new Promise(r => setTimeout(r, 33));
+    }
+  }
+
+  // Finalize recording
+  recorder.stop();
 }
 
-// TOGGLE PHONE SIMULATOR
-document.getElementById("togglePhoneBtn").addEventListener("click", () => {
-  const col = document.getElementById("phoneSimulatorColumn");
-  const txt = document.getElementById("togglePhoneText");
-  if (col.classList.contains("hidden")) {
-    col.classList.remove("hidden");
-    txt.innerText = "Hide 9:16 Simulator";
+// DRAW FRAME: HIGH IMPACT 9:16 VERTICAL SHORT WITH KINETIC HORMOZI CAPTIONS
+function drawVideoFrame(ctx, cut, words, activeWordIndex, progressRatio) {
+  const W = ctx.canvas.width;
+  const H = ctx.canvas.height;
+
+  // 1. Background: Deep obsidian chiaroscuro gradient
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#040509');
+  bgGrad.addColorStop(0.4, cut.bgColor || '#0e0b16');
+  bgGrad.addColorStop(1, '#020305');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle atmospheric vignette shadows
+  const radial = ctx.createRadialGradient(W / 2, H * 0.45, 50, W / 2, H * 0.45, W * 0.9);
+  radial.addColorStop(0, 'rgba(225, 29, 72, 0.08)');
+  radial.addColorStop(1, 'rgba(0, 0, 0, 0.85)');
+  ctx.fillStyle = radial;
+  ctx.fillRect(0, 0, W, H);
+
+  // 2. Top Header Brand Pill
+  ctx.fillStyle = 'rgba(15, 20, 32, 0.85)';
+  roundRect(ctx, W / 2 - 130, 45, 260, 34, 17);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(225, 29, 72, 0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 12px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(`CUT #${cut.index} • DARK PSYCHOLOGY`, W / 2, 67);
+
+  // 3. Center Hook / On-Screen Pill (High Voltage Danger Badge)
+  ctx.save();
+  const badgeY = H * 0.35;
+  ctx.fillStyle = '#e11d48';
+  ctx.shadowColor = 'rgba(225, 29, 72, 0.8)';
+  ctx.shadowBlur = 25;
+  const badgeW = 240;
+  roundRect(ctx, (W - badgeW) / 2, badgeY, badgeW, 44, 10);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '900 16px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(cut.onScreen || 'WARNING: DANGER', W / 2, badgeY + 28);
+
+  // 4. KINETIC SUBTITLE OVERLAYS (HORMOZI / MRBEAST AUTO POPPING)
+  const captionY = H * 0.54;
+  const fontSize = 34;
+  ctx.font = `900 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+  ctx.textAlign = 'center';
+
+  // Group words into 3-word chunks for vertical Shorts readability
+  const startWordGroup = Math.floor(activeWordIndex / 3) * 3;
+  const displayWords = words.slice(startWordGroup, startWordGroup + 3);
+
+  const fullPhrase = displayWords.join(' ');
+  const totalW = ctx.measureText(fullPhrase).width;
+  let curX = (W - totalW) / 2;
+
+  for (let i = 0; i < displayWords.length; i++) {
+    const wIdx = startWordGroup + i;
+    const word = displayWords[i];
+    const isCurrent = (wIdx === activeWordIndex);
+    const wordWidth = ctx.measureText(word + ' ').width;
+
+    ctx.save();
+    if (isCurrent) {
+      // Scale pop animation
+      ctx.translate(curX + wordWidth / 2, captionY);
+      ctx.scale(1.12, 1.12);
+      ctx.translate(-(curX + wordWidth / 2), -captionY);
+
+      // Kinetic color highlight
+      if (captionTheme === 'hormozi') {
+        ctx.fillStyle = '#facc15'; // Hormozi Yellow
+        ctx.shadowColor = '#facc15';
+      } else if (captionTheme === 'beast') {
+        ctx.fillStyle = '#34d399'; // Beast Green
+        ctx.shadowColor = '#34d399';
+      } else {
+        ctx.fillStyle = '#f43f5e'; // Crimson Red
+        ctx.shadowColor = '#f43f5e';
+      }
+      ctx.shadowBlur = 20;
+    } else {
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0,0,0,0.9)';
+      ctx.shadowBlur = 10;
+    }
+
+    // Heavy dark text stroke for punchy viral contrast
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 6;
+    ctx.strokeText(word, curX + wordWidth / 2, captionY);
+    ctx.fillText(word, curX + wordWidth / 2, captionY);
+    ctx.restore();
+
+    curX += wordWidth;
+  }
+
+  // 5. Visual Prompt Sub-layer simulation (Chiaroscuro prompt watermark)
+  ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+  ctx.font = 'italic 11px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  const promptSnippet = cut.prompt ? cut.prompt.substring(0, 52) + '... --ar 9:16' : '';
+  ctx.fillText(promptSnippet, W / 2, H * 0.78);
+
+  // 6. Bottom Progress Bar & Infinite Loop Notice
+  const barY = H - 60;
+  ctx.fillStyle = 'rgba(30, 41, 59, 0.8)';
+  roundRect(ctx, 40, barY, W - 80, 8, 4);
+  ctx.fill();
+
+  ctx.fillStyle = '#e11d48';
+  const progressW = (W - 80) * ((cut.index - 1 + progressRatio) / 9);
+  roundRect(ctx, 40, barY, Math.max(8, progressW), 8, 4);
+  ctx.fill();
+
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+  ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('9:16 INFINITE SEAMLESS LOOP ENGINE', W / 2, H - 35);
+}
+
+// Helper: Rounded rectangle
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
+function closeRenderModal() {
+  document.getElementById("renderModal").classList.add("hidden");
+}
+
+function downloadSrtFile() {
+  let srt = '';
+  let cur = 0;
+  activeProject.cuts.forEach((c, idx) => {
+    const dur = c.duration || 5;
+    const start = cur;
+    const end = cur + dur;
+    cur = end;
+    const fmt = (s) => `00:00:${String(Math.floor(s)).padStart(2, '0')},000`;
+    srt += `${idx + 1}\n${fmt(start)} --> ${fmt(end)}\n${c.narration}\n\n`;
+  });
+  const blob = new Blob([srt], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `${activeProject.title.toLowerCase().replace(/[^a-z0-9]+/g, '_')}_subtitles.srt`;
+  a.click();
+}
+
+// API KEY CONFIG
+function openApiConfigModal() {
+  document.getElementById("apiKeyModal").classList.remove("hidden");
+  document.getElementById("apiKeyInput").value = localStorage.getItem("VIRAL_SHORTS_GEMINI_API_KEY") || "";
+}
+function closeApiConfigModal() {
+  document.getElementById("apiKeyModal").classList.add("hidden");
+}
+function saveApiKey() {
+  const val = document.getElementById("apiKeyInput").value.trim();
+  if (val) {
+    localStorage.setItem("VIRAL_SHORTS_GEMINI_API_KEY", val);
+    document.getElementById("apiKeyDot").className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
   } else {
-    col.classList.add("hidden");
-    txt.innerText = "Show 9:16 Simulator";
+    localStorage.removeItem("VIRAL_SHORTS_GEMINI_API_KEY");
+    document.getElementById("apiKeyDot").className = "w-2 h-2 rounded-full bg-slate-500";
   }
-});
+  closeApiConfigModal();
+}
+function clearApiKey() {
+  localStorage.removeItem("VIRAL_SHORTS_GEMINI_API_KEY");
+  document.getElementById("apiKeyInput").value = "";
+  document.getElementById("apiKeyDot").className = "w-2 h-2 rounded-full bg-slate-500";
+  closeApiConfigModal();
+}
 
-// ENTER KEY FOR SCRIPT GENERATION
+// GENERATE SCRIPT FROM GEMINI
+async function handleGenerateCustomConcept() {
+  const input = document.getElementById("conceptInput").value.trim();
+  if (!input) return;
+
+  const badge = document.getElementById("genStatusBadge");
+  const btn = document.getElementById("generateScriptBtn");
+  badge.classList.remove("hidden");
+  btn.disabled = true;
+
+  const apiKey = localStorage.getItem("VIRAL_SHORTS_GEMINI_API_KEY");
+
+  if (apiKey) {
+    try {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+      const prompt = `Write a viral YouTube Shorts script for Dark Psychology on: "${input}". Return 9 cuts, 85-110 words total, punchy 3-6 words per sentence, starting with a negative hook and looping seamlessly back. Return ONLY valid JSON with keys: title, hook, loopSentence, wordCount, cuts array (index, time, duration, narration, onScreen, prompt ending in --ar 9:16).`;
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: 'application/json' } })
+      });
+      const json = await res.json();
+      const parsed = JSON.parse(json.candidates[0].content.parts[0].text);
+      if (parsed.cuts && parsed.cuts.length > 0) {
+        activeProject = {
+          title: parsed.title || `Dark Psychology: ${input}`,
+          hook: parsed.hook || `Warning. If they do this, they are manipulating you.`,
+          loopSentence: parsed.loopSentence || "Because whenever someone tries this on you,",
+          wordCount: parsed.wordCount || 95,
+          cuts: parsed.cuts.map((c, i) => ({
+            index: i + 1,
+            time: c.time || `0:0${i * 6} - 0:0${(i + 1) * 6}`,
+            duration: c.duration || 6,
+            narration: c.narration,
+            onScreen: c.onScreen || "WARNING",
+            prompt: c.prompt && c.prompt.includes('--ar 9:16') ? c.prompt : `${c.prompt} --ar 9:16`,
+            bgColor: i % 2 === 0 ? '#14080e' : '#090d18',
+            highlightWord: c.narration.split(' ')[0] || 'warning'
+          }))
+        };
+        renderSequenceTracker();
+        badge.classList.add("hidden");
+        btn.disabled = false;
+        return;
+      }
+    } catch (err) {
+      console.warn('Direct Gemini API call fallback to client dataset:', err);
+    }
+  }
+
+  // Offline / Preset Fallback
+  setTimeout(() => {
+    const clean = input.replace(/^(the|a)\s+/i, '');
+    activeProject = {
+      title: `Dark Psychology: ${input}`,
+      hook: `Warning. If they do this, they are secretly using ${clean.toLowerCase()} on you.`,
+      loopSentence: "Because whenever someone tries this on you,",
+      wordCount: 95,
+      cuts: DATASETS["Predatory Eye Dominance"].cuts.map(c => ({
+        ...c,
+        narration: c.index === 1 ? `Warning. If they do this, they are secretly using ${clean.toLowerCase()} on you.` : c.narration
+      }))
+    };
+    renderSequenceTracker();
+    badge.classList.add("hidden");
+    btn.disabled = false;
+  }, 600);
+}
+
+function applyPresetConcept(preset) {
+  document.getElementById("conceptInput").value = preset;
+  handleGenerateCustomConcept();
+}
+function handleRegenerate() {
+  handleGenerateCustomConcept();
+}
+function copyImaginePrompt(txt) {
+  navigator.clipboard.writeText(`/imagine prompt: ${txt}`);
+}
+function copyAllPrompts() {
+  const all = activeProject.cuts.map(c => `/imagine prompt: ${c.prompt}`).join('\n\n');
+  navigator.clipboard.writeText(all);
+}
+function copyFullScript() {
+  const full = activeProject.cuts.map(c => c.narration).join(' ');
+  navigator.clipboard.writeText(full);
+}
+function switchTab(t) {
+  ['script', 'prompts', 'ideas'].forEach(tab => {
+    document.getElementById(`view-${tab}`).classList.add("hidden");
+    document.getElementById(`tab-${tab}`).classList.remove("tab-active", "text-white");
+    document.getElementById(`tab-${tab}`).classList.add("text-slate-400");
+  });
+  document.getElementById(`view-${t}`).classList.remove("hidden");
+  document.getElementById(`tab-${t}`).classList.add("tab-active");
+}
+
+// ENTER KEY FOR CONCEPT INPUT
 document.getElementById("conceptInput").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    handleGenerateCustomConcept();
-  }
+  if (e.key === "Enter") handleGenerateCustomConcept();
 });
 
-// INITIAL BOOT
+// Check stored API Key on boot
+if (localStorage.getItem("VIRAL_SHORTS_GEMINI_API_KEY")) {
+  document.getElementById("apiKeyDot").className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+}
+
+// Boot
 renderSequenceTracker();
 </script>
 </body>
